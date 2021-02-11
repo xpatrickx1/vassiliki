@@ -1,0 +1,1570 @@
+import React, { Fragment, useEffect, useState } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
+import { useSwipeable } from 'react-swipeable';
+import $ from 'jquery';
+// import history from '../utils/History';
+
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  LinkedinShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  WhatsappShareButton,
+} from 'react-share';
+
+import QRCode from 'qrcode.react';
+
+import { Redirect } from 'react-router-dom';
+
+// import Preloader from './functional/Preloader';
+// import SaveVCF from './functional/SaveVCF';
+
+import background1 from '../img/background1.jpg';
+import background2 from '../img/background2.jpg';
+import background3 from '../img/background3.jpg';
+import background4 from '../img/background4.jpg';
+import background5 from '../img/background5.jpg';
+import background6 from '../img/background6.jpg';
+
+import { useMediaQuery } from 'react-responsive';
+
+import ReactGlTransitionImage, {
+    blobbyTransition ,
+} from 'react-gl-transition-image';
+
+import { Spring } from 'react-spring/renderprops';
+
+const GlobalStyle = createGlobalStyle`
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  .background {
+    position: fixed !important;
+    min-width: 200vw !important;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    z-index: 2;
+    transition: transform 8s linear, opacity 2s linear;
+  }
+
+  .share-background {
+    width: 100vw !important;
+    opacity: 0;
+    left: -95vw;
+    top: -7vw;
+    filter: blur(3px);
+    transform: scale(1.2,1.2);
+    transition: transform 4s linear, opacity 2s linear;
+    z-index: 7;
+    pointer-events: none;
+  }
+
+  .share-background-animation {
+    opacity: 1 !important;
+    transform: scale(1, 1) !important;
+  }
+
+  .bringForth {
+    z-index: 3 !important;
+  }
+
+  .reset {
+    transition: opacity 0s linear, transform 8s linear !important;
+    opacity: 0;
+  }
+
+  .background1 {
+    width: 110vw !important;
+    min-width: 10vw !important;
+    transform: scale(1.1) translateX(0);
+    
+    &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -10vw;
+    width: 130vw;
+    height: 80vw;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+    }
+  }
+
+  .screen-1-animation {
+    opacity: 1 !important;
+    transform: scale(1.1) translateX(0);
+    animation: 5s screen-1-animation ease-in-out;
+    animation-delay: 1s;
+  }
+  
+  @keyframes screen-1-animation {
+  0% {
+    transform: scale(1.1) translateX(-1vw);
+  }
+  
+  50% {
+    transform: scale(1.1) translate(-5vw, 2vw);
+  }
+  
+  100% {
+    transform: scale(1.1) translateX(0);
+  }
+}
+
+  .background2 {
+    width: 110vw !important;
+    transform: scale(1) translateX(-45vw);
+    opacity: 1;
+    
+     &:after {
+    content: '';
+    position: absolute;
+    right: -30vw;
+    bottom: 0;
+    width: 230vw;
+    height: 240vw;
+    background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+    }
+  }
+  
+  .background2 div {
+    background-size: inherit !important;
+    transform: scale(1.1);
+    bottom: 0;
+  }
+  
+  .screen-2-animation {
+    opacity: 1 !important;
+    animation: 5s screen-2-animation ease-in-out;
+    animation-delay: 1s;
+  }
+  
+  @keyframes screen-2-animation {
+  0% {
+    transform: scale(1) translate(-10vw, 3vw);
+  }
+  
+  50% {
+    transform: scale(1)  translate(-20vw, 0);
+  }
+  
+  100% {
+    transform: scale(1) translateX(-45vw);
+  }
+}
+
+  .background3 {
+    transform: translateX(0%);
+    
+    &:after {
+    content: '';
+    position: absolute;
+    right: -30vw;
+    bottom: 0;
+    width: 230vw;
+    height: 240vw;
+    background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+    }
+  }
+
+  .screen-3-animation {
+    opacity: 1 !important;
+    transform: translateX(-25%) !important;
+  }
+
+  .background4 {
+    transform: scale(1.2, 1.2) translateX(0%);
+    
+    &:after {
+    content: '';
+    position: absolute;
+    right: -30vw;
+    bottom: 0;
+    width: 230vw;
+    height: 240vw;
+    background: linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(2,2,3,0.6629026610644257) 180%,rgba(0,0,0,1) 100%);
+    }
+  }
+
+  .screen-4-animation {
+    opacity: 1 !important;
+    transform: scale(1, 1) translateX(-15%);
+  }
+
+  .background5 {
+    transform: scale(1.2, 1.2) translateX(0%);
+  }
+
+  .screen-5-animation {
+    opacity: 1 !important;
+    transform: scale(1, 1) translateX(-25%);
+  }
+  
+  
+  .player {
+    width: 5vw;
+    height: 5vw;
+    position: fixed;
+    bottom: 12vw;
+    left: 7vw;
+    z-index: 10;
+    border: none;
+    background: url("./img/volume-icon.svg") no-repeat;
+    transform: translateX(-25vw);
+    transition: transform 2s ease-in-out, opacity 2s linear;
+  }
+
+  button, 
+  button:active, 
+  button:focus {
+      outline: none;
+  }
+  
+  .player-animation {
+    opacity: 1 !important;
+    transform: scale(1, 1) translateX(0);
+  }
+
+
+  .hide {
+    transition: opacity 0s linear;
+    display: flex !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .screen-3-animation {
+    opacity: 1 !important;
+  }
+
+  .screen-4-animation {
+    opacity: 1 !important;
+  }
+
+  .screen-5-animation {
+    opacity: 1 !important;
+  }
+
+  .image-nav {
+    position: fixed;
+    right: 10vw;
+    bottom: 12vw;
+    z-index: 4;
+  }
+
+  .arrow-img {
+    width: 2.5vw;
+    height: 5vw;
+  }
+
+  .arrow-image-wrapper {
+    transition: opacity 1s linear !important;
+    opacity: 1;
+    pointer-events: all;
+    display: none;
+  }
+  
+  .arrow-image-wrapper-show {
+    display: block;
+  }
+
+  .arrow-image-gone {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .dot-img {
+    background: #153C77;
+    border-radius: 1vw;
+    width: 1vw;
+    height: 1vw;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    opacity: 0.5;
+  }
+
+  .dot-img-focused {
+    background: white !important;
+  }
+
+  .share-icon-wrapper {
+    position: relative;
+  }
+
+  .share-icon-wrapper-2 {
+    position: fixed;
+    top:8vw;
+    right: 10vw;
+    transition: opacity 1s linear;
+    pointer-events: all;
+  }
+
+  .share-icon-wrapper-2-animation {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: 10;
+  }
+
+  .share-icon {
+    width: 5.5vw;
+  }
+
+
+  .info-wrapper {
+    z-index: 8;
+    left: 8vw;
+    top: 0;
+    position: fixed;
+    height: 100%;
+  }
+  
+  .info-wrapper-bottom {
+    top: 76vw;
+    left: 50%;
+    transform: translate(-50%, 0);
+    
+    .text-1 {
+       text-align: center;
+    }
+    
+    .text-2 {
+       text-align: center;
+    }
+  }
+  
+  .info-wrapper-top {
+  bottom: auto;
+  top: -2vw;
+  left: 8vw;
+  transform: translate(0, 0);
+  
+    .text-1, text-2 {
+     text-align: left;
+    }
+   
+  }
+  
+
+  .text-1 {
+    font-size: min(9vw, 3.7vh);
+    font-family: 'Abril Fatface', sans-serif;
+    letter-spacing: 1.2vw;
+    line-height: 1.3;
+    color: #FCF8F8;
+
+    transform: translateX(-40vw);
+    opacity: 0;
+
+    transition: transform 2s ease-in-out, opacity 2s linear;
+  }
+
+  .text-2 {
+    font-size: min(3.5vw, 2.5vh);
+    color: #FCF8F8;
+    letter-spacing: 0.5vw;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-top: 4vw;
+
+    transform: translateX(-60vw);
+    opacity: 0;
+
+    transition: transform 2s ease-in-out, opacity 2s linear;
+  }
+
+  .text-3 {
+    font-size: min(3.5vw, 2.2vh);
+    color: #FCF8F8;
+    letter-spacing: 0.3vw;
+    font-weight: 400;
+    display: inherit;
+    text-decoration: none;
+
+    transform: translateX(-80vw);
+    opacity: 0;
+
+    transition: transform 2s ease-in-out, opacity 2s linear;
+  }
+  
+  .btn-enter {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #FCF8F8;
+    font-size: min(3.9vw,2.5vh);
+    letter-spacing: 0.9vw;
+    font-weight: 900;
+    margin: 0 auto;
+    position: fixed;
+    top: 86vw;
+    left: 50%;
+    transform: translateX(-70vw);
+    z-index: 8;
+    transition: transform 2s ease-in-out, opacity 2s linear;
+    display: none;
+  }
+  
+  .btn-enter-show {
+    display: block;
+  }
+
+  .insta-icon {
+    height: 4.5vw;
+    margin-top: 7vw; 
+  }
+
+  
+  .insta-icon-wrapper {
+    position:fixed;
+    z-index: 10;
+    transform: translateX(-90vw);
+    opacity: 0;
+
+    transition: transform 2s ease-in-out, opacity 2s linear;
+  }
+  
+  .fb-icon-wrapper {
+     position:fixed;
+    z-index: 10;
+    transform: translateX(-100vw);
+    opacity: 0;
+
+    transition: transform 2s ease-in-out, opacity 2s linear;
+  }
+  
+  
+
+  .save-wrapper {
+    border-radius: 10vw;
+    padding: 2.6vw 0;
+    width: 39vw;
+    color: #FCF8F8;
+    border: 1px solid rgb(252,248,248,0.5);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 3vw;
+    text-decoration: none;
+    z-index: 8;
+    position: fixed;
+    left: 50%;
+    //transform: translateX(-50%);
+    bottom: 8vw;
+    text-align: center;
+    
+    margin-top: auto;
+
+    transform: translateX(-120vw);
+    opacity: 0;
+
+    transition: transform 2s ease-in-out, opacity 2s linear;
+  }
+  
+  
+  .save-wrapper-animation {
+  transform: translateX(0);
+    opacity: 1;
+  }
+  
+  .share-block {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transition: transform 1.5s ease-in-out, opacity 0.5s linear;
+    will-change: opacity;
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  .share-block-animation {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+    pointer-events: all !important;
+  }
+
+  .share-block-logo {
+    position: absolute;
+    top: -20vw;
+    width: 40vw;
+    transform: translateY(20vw);
+    will-change: transform;
+    transition: transform 1s ease-in-out;
+  }
+
+  .share-block-content {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    will-change: transform;
+    transition: transform 1.5s ease-in-out;
+  }
+
+  .share-block-content-title {
+    color: white;
+    font-size: 4vw;
+    font-weight: 300;
+    letter-spacing: 0.3vw;
+    margin-bottom: 6vw;
+    text-align:center;
+  }
+
+  .share-icon-wrapper {
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-bottom: 6vw;
+  }
+
+  .share-icon-img {
+    width: 11vw;
+    border-radius: 50%;
+  }
+
+  .text-1-animation {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .text-2-animation {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .text-3-animation {
+    animation: 1s fadeInUp;
+    animation-fill-mode: both;
+    animation-delay: 1.3s;
+  }
+
+  .insta-animation {
+    opacity: 1;
+    transform: translateX(15vw);
+    z-index: 7;
+  }
+  
+  .fb-animation {
+    opacity: 1;
+    transform: translateX(6vw);
+    z-index: 7;
+  }
+
+  .save-animation {
+    opacity: 1;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+  
+  .btn-enter-animation {
+    opacity: 1;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+
+  .image-nav-animtion-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+
+  .logo-animation-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+
+  .text-1-animation-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+
+  .text-2-animation-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+
+  .text-3-animation-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+
+  .insta-animation-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+  
+  .fb-animation-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+
+  .save-animation-share {
+    transition: opacity 0.5s linear;
+    opacity: 0 !important;
+  }
+
+  .blur-animation-1-share {
+    transform: translateX(0vw) !important;
+  }
+
+  .blur-animation-2-share {
+    transform: translateX(0vw) !important;
+  }
+
+  .logo-animation-share {
+    opacity: 0;
+  }
+
+  .share-icon {
+    width: 5.5vw;
+  }
+
+  .share-block-content-icons {
+    width: auto;
+    height: auto;
+  }
+
+  .close-img-wrapper {
+    position: absolute;
+    top: 5vw;
+    right: 5vw;
+  }
+
+  .close-img {
+    width: 3vw;
+  }
+
+  .share-name {
+    position: fixed;
+    top: 2vw;
+    left: 8vw;
+    color: white !important;
+  }
+
+  .share-name-text {
+    font-size: min(9vw, 3.4vh);
+    font-family: 'Abril Fatface', sans-serif;
+    letter-spacing: 1.2vw;
+    line-height: 1.3;
+    color: #FCF8F8;
+    opacity: 0;
+  }
+  
+  .share-name-text-animated {
+    opacity: 1 !important;
+    transform: translateX(0px) !important;
+  }
+  
+@keyframes fadeInUp {
+    from {
+        transform: translate3d(0,40px,0)
+    }
+
+    to {
+        transform: translate3d(0,0,0);
+        opacity: 1
+    }
+}
+
+
+.fadeInUp {
+    opacity: 0;
+    animation-name: fadeInUp;
+}
+
+  #share-1, #share-2, #share-3, #share-4, #share-5, #share-6 {
+    transition: opacity 0.5s linear, transform 1.5s ease-in-out;
+    will-change: opacity, transform;
+  }
+
+  #share-1 {
+    transform: translateX(10vw);
+    opacity: 0;
+  }
+
+  #share-2 {
+    transform: translateX(30vw);
+    opacity: 0;
+  }
+
+  #share-3 {
+    transform: translateX(50vw);
+    opacity: 0;
+  }
+
+  #share-4 {
+    transform: translateX(70vw);
+    opacity: 0;
+  }
+
+  #share-5 {
+    transform: translateX(90vw);
+    opacity: 0;
+  }
+
+  #share-6 {
+    transform: translateX(110vw);
+    opacity: 0;
+  }
+  
+  .qrcode-wrapper {
+    width: 37vw;
+    height: 37vw;
+    margin: 0 auto;
+    border-radius: 15%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .share-elements-animation {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+
+`;
+
+
+
+const useAudio = url => {
+    const [audio] = useState(new Audio(url));
+    const [playing, setPlaying] = useState(true);
+
+    const toggle = () => setPlaying(!playing);
+
+    useEffect(() => {
+            playing ? audio.play() : audio.pause();
+        },
+        [playing]
+    );
+
+    useEffect(() => {
+        audio.addEventListener('ended', () => setPlaying(false));
+        return () => {
+            audio.removeEventListener('ended', () => setPlaying(false));
+        };
+    }, []);
+
+    return [playing, toggle];
+};
+
+const Player = ({ url }) => {
+    const [playing, toggle] = useAudio(url);
+
+    return (
+        <>
+            <button className='player' onClick={toggle}></button>
+        </>
+    );
+};
+
+
+
+
+const Vassiliki = ( { match }) => {
+  const shareLink = window.location.href;
+  const shareMessage =
+    'Hello,\nYou can view/save my digital business card from the link below.';
+
+  const [currentBackground, setCurrentBackground] = useState(1);
+  const [direction, setDirection] = useState(false);
+
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  const [redirect, setRedirect] = useState(false);
+
+  const isMobile = useMediaQuery({ query: `(max-width: 500px)` });
+  useEffect(() => {
+    if (window.innerWidth >= 500) {
+      setRedirect(true);
+    }
+  }, [isMobile]);
+
+  const nextImage = () => {
+    setDirection(false);
+    setCurrentBackground(currentBackground + 1 > 5 ? 5 : currentBackground + 1);
+  };
+
+  const prevImage = () => {
+    setDirection(true);
+    setCurrentBackground(currentBackground - 1 < 1 ? 1 : currentBackground - 1);
+  };
+
+  useEffect(() => {
+    setBackground(currentBackground);
+  }, [currentBackground]);
+
+  const setBackground = (background) => {
+    const backwards = direction;
+    setCurrentBackground(background);
+
+    switch (background) {
+      case 1:
+        if (backwards) {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').addClass('hide');
+          $('.background4').addClass('hide');
+          $('.background5').addClass('hide');
+          $('.background6').addClass('hide');
+        } else {
+          $('.background1').removeClass('hide');
+          $('.background2').addClass('hide');
+          $('.background3').addClass('hide');
+          $('.background4').addClass('hide');
+          $('.background5').addClass('hide');
+          $('.background6').addClass('hide');
+          $('.btn-enter').addClass('btn-enter-show');
+          $('.share-icon-wrapper-2').addClass('hide');
+          $('.insta-icon-wrapper').removeClass('insta-animation');
+          $('.fb-icon-wrapper').removeClass('fb-animation');
+          $('.player').removeClass('player-animation');
+
+
+
+        }
+
+        if (!firstLoad) {
+          $('.background1').addClass('bringForth');
+          $('.background2').removeClass('bringForth');
+          $('.background3').removeClass('bringForth');
+          $('.background4').removeClass('bringForth');
+          $('.background5').removeClass('bringForth');
+          $('.background6').removeClass('bringForth');
+
+          $('.background2').removeClass('screen-2-animation');
+          $('.background3').removeClass('screen-3-animation');
+          $('.background4').removeClass('screen-4-animation');
+          $('.background5').removeClass('screen-5-animation');
+
+          $('.insta-icon-wrapper').removeClass('insta-animation');
+          $('.fb-icon-wrapper').removeClass('fb-animation');
+          $('.background2-shadow').addClass('hide');
+
+          $('.background1').addClass('reset');
+
+          setTimeout(() => {
+            $('.background1').removeClass('reset');
+            $('.background1').addClass('screen-1-animation');
+          }, 400);
+        } else {
+          $('.background1').addClass('screen-1-animation');
+          setFirstLoad(false);
+        }
+
+        break;
+      case 2:
+        if (backwards) {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').addClass('hide');
+          $('.background5').addClass('hide');
+          $('.background6').addClass('hide');
+        } else {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').addClass('hide');
+          $('.background4').addClass('hide');
+          $('.background5').addClass('hide');
+          $('.background6').addClass('hide');
+
+        }
+
+        $('.background1').removeClass('bringForth');
+        $('.background2').addClass('bringForth');
+        $('.background3').removeClass('bringForth');
+        $('.background4').removeClass('bringForth');
+        $('.background5').removeClass('bringForth');
+        $('.background6').removeClass('bringForth');
+
+        $('.background1').removeClass('screen-1-animation');
+        $('.background3').removeClass('screen-3-animation');
+        $('.background4').removeClass('screen-4-animation');
+        $('.background5').removeClass('screen-5-animation');
+
+          $('.arrow-image-wrapper').addClass('arrow-image-wrapper-show');
+          $('.btn-enter').removeClass('btn-enter-show');
+          $('.save-wrapper').addClass('save-wrapper-animation');
+          $('.share-icon-wrapper-2').addClass('btn-enter-show');
+          $('.text-1').removeClass('text-1-animation');
+          $('.text-2').removeClass('text-2-animation');
+          $('.share-icon-wrapper-2').removeClass('hide');
+          $('.insta-icon-wrapper').addClass('insta-animation');
+          $('.fb-icon-wrapper').addClass('fb-animation');
+          $('.background2-shadow').removeClass('hide');
+          $('.player').addClass('player-animation');
+
+          setTimeout( () => {
+              $('.info-wrapper').removeClass('info-wrapper-bottom');
+          }, 2000)
+
+          setTimeout( () => {
+              $('.info-wrapper').addClass('info-wrapper-top');
+              $('.text-1').addClass('text-1-animation');
+              $('.text-2').addClass('text-2-animation');
+              $('.text-3').addClass('text-3-animation');
+          }, 2000)
+
+
+        $('.background2').addClass('reset');
+
+        setTimeout(() => {
+          $('.background2').removeClass('reset');
+          $('.background2').addClass('screen-2-animation');
+        }, 400);
+
+        break;
+      case 3:
+        if (backwards) {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').removeClass('hide');
+          $('.background5').addClass('hide');
+          $('.background6').addClass('hide');
+        } else {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').addClass('hide');
+          $('.background5').addClass('hide');
+          $('.background6').addClass('hide');
+        }
+
+        $('.background1').removeClass('bringForth');
+        $('.background2').removeClass('bringForth');
+        $('.background3').addClass('bringForth');
+        $('.background4').removeClass('bringForth');
+        $('.background5').removeClass('bringForth');
+        $('.background6').removeClass('bringForth');
+
+        $('.background1').removeClass('screen-1-animation');
+        $('.background2').removeClass('screen-2-animation');
+        $('.background4').removeClass('screen-4-animation');
+        $('.background5').removeClass('screen-5-animation');
+
+        $('.background3').addClass('reset');
+
+        setTimeout(() => {
+          $('.background3').removeClass('reset');
+          $('.background3').addClass('screen-3-animation');
+        }, 400);
+        break;
+      case 4:
+        if (backwards) {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').removeClass('hide');
+          $('.background5').removeClass('hide');
+          $('.background6').addClass('hide');
+        } else {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').removeClass('hide');
+          $('.background5').addClass('hide');
+          $('.background6').addClass('hide');
+        }
+
+        $('.background1').removeClass('bringForth');
+        $('.background2').removeClass('bringForth');
+        $('.background3').removeClass('bringForth');
+        $('.background4').addClass('bringForth');
+        $('.background5').removeClass('bringForth');
+        $('.background6').removeClass('bringForth');
+
+        $('.background1').removeClass('screen-1-animation');
+        $('.background2').removeClass('screen-2-animation');
+        $('.background3').removeClass('screen-3-animation');
+        $('.background5').removeClass('screen-5-animation');
+
+        $('.background4').addClass('reset');
+
+        setTimeout(() => {
+          $('.background4').removeClass('reset');
+          $('.background4').addClass('screen-4-animation');
+        }, 400);
+
+        break;
+      case 5:
+        if (backwards) {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').removeClass('hide');
+          $('.background5').removeClass('hide');
+          $('.background6').removeClass('hide');
+        } else {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').removeClass('hide');
+          $('.background5').removeClass('hide');
+          $('.background6').addClass('hide');
+        }
+
+        $('.background1').removeClass('bringForth');
+        $('.background2').removeClass('bringForth');
+        $('.background3').removeClass('bringForth');
+        $('.background4').removeClass('bringForth');
+        $('.background5').addClass('bringForth');
+        $('.background6').removeClass('bringForth');
+
+        $('.background1').removeClass('screen-1-animation');
+        $('.background2').removeClass('screen-2-animation');
+        $('.background3').removeClass('screen-3-animation');
+        $('.background4').removeClass('screen-4-animation');
+
+        $('.background5').addClass('reset');
+
+        setTimeout(() => {
+          $('.background5').removeClass('reset');
+          $('.background5').addClass('screen-5-animation');
+        }, 400);
+        break;
+      default:
+        if (backwards) {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').removeClass('hide');
+          $('.background5').removeClass('hide');
+          $('.background6').removeClass('hide');
+        } else {
+          $('.background1').removeClass('hide');
+          $('.background2').removeClass('hide');
+          $('.background3').removeClass('hide');
+          $('.background4').removeClass('hide');
+          $('.background5').removeClass('hide');
+          $('.background6').removeClass('hide');
+        }
+
+        $('.background1').removeClass('bringForth');
+        $('.background2').removeClass('bringForth');
+        $('.background3').removeClass('bringForth');
+        $('.background4').removeClass('bringForth');
+        $('.background5').removeClass('bringForth');
+        $('.background6').addClass('bringForth');
+        break;
+    }
+  };
+
+  const share = () => {
+    SaveVCF(
+      'Vassiliki',
+      'Karayanni',
+      'Coloratura Soprano',
+      '+30 6977014297',
+      '',
+      'artcoolcards.gr/vassiliki-karayanni',
+      'info@vassilikikaragianni.com',
+      'www.vassilikikaragianni.com',
+      '',
+      '',
+      '',
+      ''
+    );
+  };
+
+  const swipeConfig = {
+    delta: 10, // min distance(px) before a swipe starts
+    preventDefaultTouchmoveEvent: false, // preventDefault on touchmove, *See Details*
+    trackTouch: true, // track touch input
+    trackMouse: true, // track mouse input
+    rotationAngle: 0, // set a rotation angle
+  };
+
+  const handler = useSwipeable({
+    onSwiped: (eventData) => {
+      if (eventData.dir === 'Up') {
+        nextImage();
+      } else if (eventData.dir === 'Down') {
+        prevImage();
+      }
+    },
+    ...swipeConfig,
+  });
+
+  useEffect(() => {
+    // history.push('/vassiliki-Karayanni');
+
+    setTimeout(() => {
+      closeIntro();
+    }, 1000);
+
+    // if (match.params.save && match.params.save === 'save') {
+    //   share();
+    // }
+    //eslint-disable-next-line
+  }, []);
+
+  const closeIntro = () => {
+    $('.intro-text-container').addClass('intro-logo-animation');
+
+    setTimeout(() => {
+      $('.image-nav').addClass('image-nav-animtion');
+
+      $('.text-1').addClass('text-1-animation');
+      $('.text-2').addClass('text-2-animation');
+      $('.info-wrapper').addClass('info-wrapper-bottom');
+      $('.btn-enter').addClass('btn-enter-animation');
+    }, [500]);
+  };
+
+  const openShare = () => {
+    $('.image-nav').addClass('image-nav-animtion-share');
+
+    $('.text-1').addClass('text-1-animation-share');
+    $('.text-2').addClass('text-2-animation-share');
+    $('.text-3').addClass('text-3-animation-share');
+    $('.share-name-text').addClass('share-name-text-animated');
+
+    $('.insta-icon-wrapper').addClass('insta-animation-share');
+      $('.fb-icon-wrapper').addClass('fb-animation-share');
+
+    $('.save-wrapper').addClass('save-animation-share');
+
+    $('.share-block').addClass('share-block-animation');
+
+    $('.share-icon-wrapper-2').addClass('share-icon-wrapper-2-animation');
+
+    $('.share-background').addClass('share-background-animation');
+
+    $('#share-1').addClass('share-elements-animation');
+    $('#share-2').addClass('share-elements-animation');
+    $('#share-3').addClass('share-elements-animation');
+    $('#share-4').addClass('share-elements-animation');
+    $('#share-5').addClass('share-elements-animation');
+    $('#share-6').addClass('share-elements-animation');
+  };
+
+  const closeShare = () => {
+    $('.image-nav').removeClass('image-nav-animtion-share');
+
+    $('.text-1').removeClass('text-1-animation-share');
+    $('.text-2').removeClass('text-2-animation-share');
+    $('.text-3').removeClass('text-3-animation-share');
+      $('.share-name-text').removeClass('share-name-text-animated');
+
+    $('.insta-icon-wrapper').removeClass('insta-animation-share');
+    $('.fb-icon-wrapper').removeClass('fb-animation-share');
+
+    $('.save-wrapper').removeClass('save-animation-share');
+
+    $('.share-block').removeClass('share-block-animation');
+
+    $('.share-icon-wrapper-2').removeClass('share-icon-wrapper-2-animation');
+
+    $('.share-background').removeClass('share-background-animation');
+
+    $('#share-1').removeClass('share-elements-animation');
+    $('#share-2').removeClass('share-elements-animation');
+    $('#share-3').removeClass('share-elements-animation');
+    $('#share-4').removeClass('share-elements-animation');
+    $('#share-5').removeClass('share-elements-animation');
+    $('#share-6').removeClass('share-elements-animation');
+  };
+
+  const customTransition = `
+    const float amplitude =  100.;
+    const float speed = 50.;
+
+      vec4 transition (vec2 uv) {
+        vec2 dir = uv - vec2(.5);
+        float dist = length(dir);
+        vec2 offset = dir/0.5 * (sin(progress * dist * amplitude - progress * speed) + .5) / 30.;
+        return getToColor(uv + (offset * (1. - 1./smoothstep(0.01, 1.0, progress))) );
+      }
+  `;
+
+
+  const startingProgress = 0;
+  const tension = 10;
+  const friction = 15;
+  const transition = blobbyTransition ;
+
+  if (redirect) {
+    return <Redirect to={'/view' + window.location.pathname} />;
+  }
+
+  return (
+    <Fragment>
+      <GlobalStyle />
+      {/*<Preloader dark={false} show={false} />*/}
+      <div
+        {...handler}
+        style={{ position: 'fixed', width: '100vw', height: '100%' }}
+      >
+        <Spring
+          reset={currentBackground === 1}
+          config={{
+            tension: tension,
+            friction: friction,
+            clamp: true,
+          }}
+          from={{ progress: startingProgress }}
+          to={{ progress: 1 }}
+        >
+          {(animProps) => (
+            <ReactGlTransitionImage
+              src={background1}
+              transition={transition}
+              className='background background1'
+              progress={animProps.progress}
+              style={{ minWidth: '100vw', minHeight: '100%' }}
+            />
+          )}
+        </Spring>
+        <Spring
+          reset={currentBackground === 2}
+          config={{
+            tension: tension,
+            friction: friction,
+            clamp: true,
+          }}
+          from={{ progress: startingProgress }}
+          to={{ progress: 1 }}
+        >
+          {(animProps) => (
+            <ReactGlTransitionImage
+              src={background2}
+              transition={transition}
+              className='background background2'
+              progress={animProps.progress}
+              style={{ minWidth: '100vw', minHeight: '100%' }}
+            />
+          )}
+        </Spring>
+        <Spring
+          reset={currentBackground === 3}
+          config={{
+            tension: tension,
+            friction: friction,
+            clamp: true,
+          }}
+          from={{ progress: startingProgress }}
+          to={{ progress: 1 }}
+        >
+          {(animProps) => (
+            <ReactGlTransitionImage
+              src={background3}
+              transition={transition}
+              className='background background3'
+              progress={animProps.progress}
+            />
+          )}
+        </Spring>
+        <Spring
+          reset={currentBackground === 4}
+          config={{
+            tension: tension,
+            friction: friction,
+            clamp: true,
+          }}
+          from={{ progress: startingProgress }}
+          to={{ progress: 1 }}
+        >
+          {(animProps) => (
+            <ReactGlTransitionImage
+              src={background4}
+              transition={transition}
+              className='background background4'
+              progress={animProps.progress}
+            />
+          )}
+        </Spring>
+        <img src={background5} className='background share-background' />
+        <div
+          className='share-block fl-column fl-full-center'
+          style={{ zIndex: '99', top: '0' }}
+        >
+          <div id='share-1' className='share-name fl-column'>
+            <div className='share-name-text'>Vassiliki</div>
+            <div className='share-name-text'>Karayanni</div>
+          </div>
+
+          <a
+            className='close-img-wrapper'
+            href='#!'
+            onClick={(e) => {
+              e.preventDefault();
+              closeShare();
+            }}
+            style={{ zIndex: '100' }}
+          >
+            <img
+              className='close-img'
+              src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/close.svg'
+              alt=''
+            />
+          </a>
+          <div
+            style={{ marginTop: 'auto', marginBottom: 'auto' }}
+            className='fl-column fl-align-center'
+          >
+            <div
+              id='share-2'
+              className='share-block-content-title'
+              style={{ marginTop: '5vw' }}
+            >
+              SHARE MY CARD
+            </div>
+            <div
+              id='share-3'
+              className='share-block-content-icons fl-row fl-justify-center'
+            >
+
+
+              <a
+                href={`sms:?&body=/* ${shareMessage + '\n\n'} ${shareLink} */`}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/sms.png'
+                  className='share-icon-img'
+                />
+              </a>
+              <ViberShareButton
+                url={shareLink}
+                title={shareMessage + '\n\n'}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/viber.svg'
+                  className='share-icon-img'
+                />
+              </ViberShareButton>
+              <WhatsappShareButton
+                url={shareLink}
+                title={shareMessage + '\n\n'}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/whatsapp.svg'
+                  className='share-icon-img'
+                />
+              </WhatsappShareButton>
+              <EmailShareButton
+                url={shareLink}
+                subject='Η Κάρτα Μου'
+                body={shareMessage + '\n\n'}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/email.svg'
+                  className='share-icon-img'
+                />
+              </EmailShareButton>
+            </div>
+
+            <div
+              id='share-4'
+              className='share-block-content-icons fl-row fl-justify-center'
+            >
+              <FacebookShareButton
+                url={shareLink}
+                quote={shareMessage + '\n\n'}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/facebook.svg'
+                  className='share-icon-img'
+                />
+              </FacebookShareButton>
+              <TelegramShareButton
+                url={shareLink}
+                title={shareMessage + '\n\n'}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/telegram.svg'
+                  className='share-icon-img'
+                />
+              </TelegramShareButton>
+              <TwitterShareButton
+                url={shareLink}
+                title={shareMessage + '\n\n'}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/twitter.svg'
+                  className='share-icon-img'
+                />
+              </TwitterShareButton>
+              <LinkedinShareButton
+                url={shareLink}
+                summary={shareMessage + '\n\n'}
+                title={shareMessage + '\n\n'}
+                className='share-icon-wrapper'
+              >
+                <img
+                  alt=''
+                  src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/linkedin.svg'
+                  className='share-icon-img'
+                />
+              </LinkedinShareButton>
+            </div>
+
+            <div
+              id='share-5'
+              className='share-block-content-title'
+              style={{ marginTop: '10vw' }}
+            >
+              SCAN AND SAVE
+            </div>
+            <div className='qrcode-wrapper'>
+            <QRCode
+              id='share-6'
+              value={shareLink}
+              style={{
+                width: '30vw',
+                height: 'auto',
+                padding: '3vw',
+                background: 'white',
+              }}
+            />
+            </div>
+          </div>
+        </div>
+        <Player
+          url='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/music.mp3'
+        />
+        <div
+          className='image-nav fl-column fl-full-center'
+          style={{ zIndex: '7' }}
+        >
+          <a
+            href='#!'
+            onClick={(e) => {
+              e.preventDefault();
+              nextImage();
+            }}
+            className={
+              currentBackground >= 5
+                ? 'arrow-image-wrapper arrow-image-gone'
+                : 'arrow-image-wrapper'
+            }
+          >
+            <img
+              src='./img/arrow-icon.svg'
+              alt=''
+              className='arrow-img'
+            />
+          </a>
+        </div>
+
+          <a
+              href='https://instagram.com/'
+              className='fb-icon-wrapper'
+          >
+              <img
+                  src='./img/fb-icon.svg'
+                  alt=''
+                  className='insta-icon'
+              />
+          </a>
+
+          <a
+              href='https://instagram.com/'
+              className='insta-icon-wrapper'
+          >
+              <img
+                  src='./img/insta-icon.svg'
+                  alt=''
+                  className='insta-icon'
+              />
+          </a>
+
+        <a
+          className='share-icon-wrapper-2'
+          href='#!'
+          onClick={(e) => {
+            e.preventDefault();
+            openShare();
+          }}
+          style={{ zIndex: '7' }}
+        >
+          <img
+            src='./img/share-icon.svg'
+            alt=''
+            className='share-icon'
+          />
+        </a>
+
+        <div
+          className='info-wrapper fl-column fl-justify-center'
+          style={{ zIndex: '8' }}
+        >
+          <div className='text-1' style={{ marginTop: 'min(55vw, 30vh)' }}>
+              Vassiliki
+          </div>
+          <div className='text-1' style={{ marginBottom: '0.5vw' }}>
+              Karayanni
+          </div>
+          <div className='text-2' style={{ marginBottom: 'min(18vw, 10vh)' }}>
+              Coloratura Soprano
+          </div>
+
+
+          <a onClick={()=>setCurrentBackground(2)} className="btn-enter" href="#!">enter</a>
+
+
+          <a
+            className='text-3'
+            href='tel:+30 6977014297'
+            style={{ marginBottom: '4vw' }}
+          >
+              +30 6977014297
+          </a>
+          <a
+            className='text-3'
+            href='mailto:dimitris_stef@icloud.com'
+            style={{ marginBottom: '2vw' }}
+          >
+              info@vassilikikaragianni.com
+          </a>
+          <a className='text-3' href='https://www.syachting.com'>
+              www.vassilikikaragianni.com
+          </a>
+
+          <a
+            className='save-wrapper fl-row fl-align-center'
+            href='#!'
+            onClick={(e) => {
+              e.preventDefault();
+              share();
+            }}
+          >SAVE MY CONTACTS
+          </a>
+          <div
+            style={{
+              opacity: '0',
+              width: '100%',
+              height: '1px',
+              position: 'relative',
+              marginTop: 'auto',
+            }}
+          >
+            placeholder
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
+
+export default Vassiliki;
