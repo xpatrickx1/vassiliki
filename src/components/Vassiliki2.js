@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSwipeable } from 'react-swipeable';
 import $ from 'jquery';
+
 // import history from '../utils/History';
 
 import {
@@ -40,6 +41,7 @@ const GlobalStyle = createGlobalStyle`
   html, body, #root {
     height: 100%;
     width: 100%;
+    margin: 0;
     overflow: hidden;
     font-family: 'Lato', sans-serif;
   }
@@ -84,14 +86,15 @@ const GlobalStyle = createGlobalStyle`
   .background1 {
     width: 110vw !important;
     min-width: 10vw !important;
-    transform: scale(1.1) translateX(0);
+    transform: scale(1.1) translateX(-1vw);
+    background: url("./img/background1.jpg");
     
     &:before {
       content: url('./img/eye-left.png');
       position:fixed;
-      left: 39%;
-      top: 33%;
-      z-index: 10;
+      //z-index:1;
+      left: 44%;
+      top: 59%;
       animation: 6s eye-animation forwards;
       animation-delay: 1s;
       opacity: 0;
@@ -101,13 +104,15 @@ const GlobalStyle = createGlobalStyle`
       content: url('./img/eye-right.png');
       position:fixed;
       z-index:1;
-      left: 65%;
-      top: 33%;
+      left: 73%;
+      top: 59%;
       animation: 6s eye-animation forwards;
       animation-delay: 1s;
       opacity: 0;
     }
+
   }
+ 
   
   @keyframes eye-animation {
   0% {
@@ -128,24 +133,23 @@ const GlobalStyle = createGlobalStyle`
 
   .screen-1-animation {
     opacity: 1 !important;
-    transform: scale(1.1) translateX(0);
-    animation: 5s screen-1-animation ease-in-out;
+    animation: 6s screen-1-animation ease-in-out;
     animation-delay: 1s;
   }
   
   @keyframes screen-1-animation {
   0% {
-    transform: scale(1.1) translateX(-1vw);
+    transform: scale(1.1) translateX(-5w);
   }
   
   50% {
-    transform: scale(1.1) translate(-5vw, 2vw);
+    transform: scale(1.1) translate(-10vw, 3vw);
   }
   
   100% {
-    transform: scale(1.1) translateX(0);
+    transform: scale(1.1) translateX(-1vw);
   }
-}
+} 
 
   .background2 {
     width: 110vw !important;
@@ -241,7 +245,7 @@ const GlobalStyle = createGlobalStyle`
     width: 5vw;
     height: 5vw;
     position: fixed;
-    bottom: 13vw;
+    bottom: 12vw;
     left: 10vw;
     z-index: 10;
     border: none;
@@ -281,17 +285,16 @@ const GlobalStyle = createGlobalStyle`
     opacity: 1 !important;
   }
 
-  
   .image-nav {
     position: fixed;
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
-    right: 6vw;
-    bottom: 12vw;
+    right: 5vw;
+    bottom: 9vw;
     z-index: 4;
-    opacity: 0;
+    transform: rotate(90deg);
   }
 
   .arrow-img {
@@ -303,33 +306,31 @@ const GlobalStyle = createGlobalStyle`
     transition: opacity 1s linear !important;
     opacity: 1;
     pointer-events: all;
-    display: block;
-    height: 18px;
-    margin: 5px;
+    display: none;
+    margin: 0 2vw !important;
+    transform: rotate(-90deg);
   }
   
   .arrow-image-wrapper-show {
-    display: flex;
-    opacity: 1 !important;
+    display: block;
   }
 
   .arrow-image-gone {
-    opacity: 0 !important;
+    opacity: .5 !important;
     pointer-events: none !important;
   }
 
   .dot-img {
-    background: white;
+    background: #153C77;
     border-radius: 1vw;
     width: 1vw;
     height: 1vw;
-    margin: 1vw;
+    margin: 1vw 0.5vw;
     opacity: 0.5;
   }
 
   .dot-img-focused {
     background: white !important;
-    opacity: 1;
   }
 
   .share-icon-wrapper {
@@ -363,8 +364,21 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
   
+   .background1 > div {
+    &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -10vw;
+    width: 130vw;
+    height: 80vw;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+    }
+    
+   }
+  
   .info-wrapper-bottom {
-    top: 76vw;
+    top: 74vw;
     left: 50%;
     transform: translate(-50%, 0);
     
@@ -432,7 +446,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   .btn-enter {
-   text-transform: uppercase;
+    text-transform: uppercase;
     text-decoration: none;
     color: #FCF8F8;
     font-size: min(3.9vw,2.5vh);
@@ -446,19 +460,13 @@ const GlobalStyle = createGlobalStyle`
     opacity: 0;
   }
   
-  .background1 > div {
-    &:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: -10vw;
-    width: 130vw;
-    height: 80vw;
-    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
-    }
-    
-   }
-
+  .btn-enter-animation {
+    animation: 1s fadeInUp;
+    animation-fill-mode: both;
+    animation-delay: 1.5s;
+    opacity: 1;
+  }
+  
 
   .insta-icon {
     height: 4.5vw;
@@ -500,7 +508,7 @@ const GlobalStyle = createGlobalStyle`
     position: fixed;
     left: 50%;
     //transform: translateX(-50%);
-    bottom: 9vw;
+    bottom: 8vw;
     text-align: center;
     
     margin-top: auto;
@@ -517,16 +525,6 @@ const GlobalStyle = createGlobalStyle`
     opacity: 1;
   }
   
-  .arrow-img {
-    width: 2.5vw;
-    height: 5vw;
-  }
-
-  .arrow-image-gone {
-    opacity: .8 !important;
-    pointer-events: none !important;
-  }
-  
   .share-block {
     position: absolute;
     display: flex;
@@ -534,7 +532,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     pointer-events: none;
-    transition: transform 1s ease-in-out, opacity 0.5s linear;
+    transition: transform 1.5s ease-in-out, opacity 0.5s linear;
     will-change: opacity;
     opacity: 0;
     transform: translateX(100%);
@@ -618,13 +616,10 @@ const GlobalStyle = createGlobalStyle`
     transform: translateX(-50%);
     left: 50%;
   }
-  
-  .btn-enter-animation {
-     animation: 1s fadeInUp;
-    animation-fill-mode: both;
-    animation-delay: 1.5s;
-    opacity: 1;
-  }
+ 
+ .image-nav-animtion {
+    transform: translateY(-50%);
+ }
 
   .image-nav-animtion-share {
     transition: opacity 0.5s linear;
@@ -722,7 +717,6 @@ const GlobalStyle = createGlobalStyle`
     from {
         transform: translate3d(0,20px,0);
         opacity: 0;
-    
     }
 
     to {
@@ -787,6 +781,10 @@ const GlobalStyle = createGlobalStyle`
     opacity: 1 !important;
     transform: translateX(0) !important;
   }
+  
+  .intro-screen {
+  z-index: 10;
+  }
 
 `;
 
@@ -827,7 +825,7 @@ const Player = ({ url }) => {
 
 
 
-const Vassiliki = ( { match }) => {
+const Vassiliki2 = ( { match }) => {
   const shareLink = window.location.href;
   const shareMessage =
     'Hello,\nYou can view/save my digital business card from the link below.';
@@ -848,7 +846,7 @@ const Vassiliki = ( { match }) => {
 
   const nextImage = () => {
     setDirection(false);
-    setCurrentBackground(currentBackground + 1 > 5 ? 5 : currentBackground + 1);
+    setCurrentBackground(currentBackground + 1 > 3 ? 3 : currentBackground + 1);
   };
 
   const prevImage = () => {
@@ -857,8 +855,22 @@ const Vassiliki = ( { match }) => {
   };
 
   useEffect(() => {
+    // if  (firstLoad) {
+    //     showIntro();
+    //     setFirstLoad(false);
+    // } else {
+    //     setBackground(currentBackground);
+    // }
+
     setBackground(currentBackground);
   }, [currentBackground]);
+
+  const showIntro = () => {
+      $('.intro-screen').removeClass('hide');
+      $('.btn-enter').removeClass('hide');
+      $('.text-1').addClass('text-1-animation');
+      $('.text-2').addClass('text-2-animation');
+  }
 
   const setBackground = (background) => {
     const backwards = direction;
@@ -880,24 +892,18 @@ const Vassiliki = ( { match }) => {
           $('.background4').addClass('hide');
           $('.background5').addClass('hide');
           $('.background6').addClass('hide');
-          $('.btn-enter').addClass('btn-enter-show');
           $('.share-icon-wrapper-2').addClass('hide');
           $('.insta-icon-wrapper').removeClass('insta-animation');
           $('.fb-icon-wrapper').removeClass('fb-animation');
           $('.player').removeClass('player-animation');
+          $('.background1').addClass('eye-animation');
+
 
 
 
         }
 
         if (!firstLoad) {
-          $('.background1').addClass('bringForth');
-          $('.background2').removeClass('bringForth');
-          $('.background3').removeClass('bringForth');
-          $('.background4').removeClass('bringForth');
-          $('.background5').removeClass('bringForth');
-          $('.background6').removeClass('bringForth');
-
           $('.background2').removeClass('screen-2-animation');
           $('.background3').removeClass('screen-3-animation');
           $('.background4').removeClass('screen-4-animation');
@@ -919,7 +925,7 @@ const Vassiliki = ( { match }) => {
         }
 
         break;
-      case 2:
+      case 1:
         if (backwards) {
           $('.background1').removeClass('hide');
           $('.background2').removeClass('hide');
@@ -949,10 +955,10 @@ const Vassiliki = ( { match }) => {
         $('.background4').removeClass('screen-4-animation');
         $('.background5').removeClass('screen-5-animation');
 
-          $('.image-nav').addClass('arrow-image-wrapper-show');
-          $('.btn-enter').removeClass('btn-enter-animation');
+          $('.arrow-image-wrapper').addClass('arrow-image-wrapper-show');
           $('.save-wrapper').addClass('save-wrapper-animation');
-          $('.share-icon-wrapper-2').addClass('btn-enter-show');
+          $('.share-icon-wrapper-2').addClass('hide');
+          $('.btn-enter').addClass('hide');
           $('.text-1').removeClass('text-1-animation');
           $('.text-2').removeClass('text-2-animation');
           $('.share-icon-wrapper-2').removeClass('hide');
@@ -981,7 +987,7 @@ const Vassiliki = ( { match }) => {
         }, 400);
 
         break;
-      case 3:
+      case 2:
         if (backwards) {
           $('.background1').removeClass('hide');
           $('.background2').removeClass('hide');
@@ -1017,79 +1023,7 @@ const Vassiliki = ( { match }) => {
           $('.background3').addClass('screen-3-animation');
         }, 400);
         break;
-      case 4:
-        if (backwards) {
-          $('.background1').removeClass('hide');
-          $('.background2').removeClass('hide');
-          $('.background3').removeClass('hide');
-          $('.background4').removeClass('hide');
-          $('.background5').removeClass('hide');
-          $('.background6').addClass('hide');
-        } else {
-          $('.background1').removeClass('hide');
-          $('.background2').removeClass('hide');
-          $('.background3').removeClass('hide');
-          $('.background4').removeClass('hide');
-          $('.background5').addClass('hide');
-          $('.background6').addClass('hide');
-        }
 
-        $('.background1').removeClass('bringForth');
-        $('.background2').removeClass('bringForth');
-        $('.background3').removeClass('bringForth');
-        $('.background4').addClass('bringForth');
-        $('.background5').removeClass('bringForth');
-        $('.background6').removeClass('bringForth');
-
-        $('.background1').removeClass('screen-1-animation');
-        $('.background2').removeClass('screen-2-animation');
-        $('.background3').removeClass('screen-3-animation');
-        $('.background5').removeClass('screen-5-animation');
-
-        $('.background4').addClass('reset');
-
-        setTimeout(() => {
-          $('.background4').removeClass('reset');
-          $('.background4').addClass('screen-4-animation');
-        }, 400);
-
-        break;
-      case 5:
-        if (backwards) {
-          $('.background1').removeClass('hide');
-          $('.background2').removeClass('hide');
-          $('.background3').removeClass('hide');
-          $('.background4').removeClass('hide');
-          $('.background5').removeClass('hide');
-          $('.background6').removeClass('hide');
-        } else {
-          $('.background1').removeClass('hide');
-          $('.background2').removeClass('hide');
-          $('.background3').removeClass('hide');
-          $('.background4').removeClass('hide');
-          $('.background5').removeClass('hide');
-          $('.background6').addClass('hide');
-        }
-
-        $('.background1').removeClass('bringForth');
-        $('.background2').removeClass('bringForth');
-        $('.background3').removeClass('bringForth');
-        $('.background4').removeClass('bringForth');
-        $('.background5').addClass('bringForth');
-        $('.background6').removeClass('bringForth');
-
-        $('.background1').removeClass('screen-1-animation');
-        $('.background2').removeClass('screen-2-animation');
-        $('.background3').removeClass('screen-3-animation');
-        $('.background4').removeClass('screen-4-animation');
-
-        $('.background5').addClass('reset');
-
-        setTimeout(() => {
-          $('.background5').removeClass('reset');
-          $('.background5').addClass('screen-5-animation');
-        }, 400);
-        break;
       default:
         if (backwards) {
           $('.background1').removeClass('hide');
@@ -1156,9 +1090,10 @@ const Vassiliki = ( { match }) => {
   useEffect(() => {
     // history.push('/vassiliki-Karayanni');
 
-    setTimeout(() => {
-      closeIntro();
-    }, 1000);
+    // setTimeout(() => {
+    //   closeIntro();
+    //   // setCurrentBackground(2)
+    // }, 1000);
 
     // if (match.params.save && match.params.save === 'save') {
     //   share();
@@ -1166,13 +1101,18 @@ const Vassiliki = ( { match }) => {
     //eslint-disable-next-line
   }, []);
 
-  const closeIntro = () => {
-      $('.background1').removeClass('background1-animation');
-      $('.text-1').removeClass('text-1-animation');
-      $('.text-2').removeClass('text-2-animation');
-      $('.btn-enter').removeClass('btn-enter-animation');
+    setTimeout(() => {
+        closeIntro();
+        setCurrentBackground(2)
+    }, 10000);
 
-      setTimeout(() => {
+  const closeIntro = () => {
+    $('.background1').removeClass('background1-animation');
+    $('.text-1').removeClass('text-1-animation');
+    $('.text-2').removeClass('text-2-animation');
+    $('.btn-enter').removeClass('btn-enter-animation');
+
+    setTimeout(() => {
       $('.image-nav').addClass('image-nav-animtion');
 
       $('.text-1').addClass('text-1-animation');
@@ -1237,8 +1177,8 @@ const Vassiliki = ( { match }) => {
   };
 
   const customTransition = `
-    const float amplitude =  100.;
-    const float speed = 50.;
+    const float amplitude =  200.;
+    const float speed = 100.;
 
       vec4 transition (vec2 uv) {
         vec2 dir = uv - vec2(.5);
@@ -1287,7 +1227,7 @@ const Vassiliki = ( { match }) => {
           )}
         </Spring>
         <Spring
-          reset={currentBackground === 2}
+          reset={currentBackground === 1}
           config={{
             tension: tension,
             friction: friction,
@@ -1307,7 +1247,7 @@ const Vassiliki = ( { match }) => {
           )}
         </Spring>
         <Spring
-          reset={currentBackground === 3}
+          reset={currentBackground === 2}
           config={{
             tension: tension,
             friction: friction,
@@ -1326,7 +1266,7 @@ const Vassiliki = ( { match }) => {
           )}
         </Spring>
         <Spring
-          reset={currentBackground === 4}
+          reset={currentBackground === 3}
           config={{
             tension: tension,
             friction: friction,
@@ -1344,6 +1284,13 @@ const Vassiliki = ( { match }) => {
             />
           )}
         </Spring>
+
+        <div className='intro-screen'>
+            <video autoPlay muted loop id="myVideo">
+                <source src="./img/vassvideo.mp4" type="video/mp4" />
+            </video>
+        </div>
+
         <img src={background5} className='background share-background' />
         <div
           className='share-block fl-column fl-full-center'
@@ -1508,9 +1455,7 @@ const Vassiliki = ( { match }) => {
           url='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/music.mp3'
         />
 
-
-
-         <div
+          <div
               className='image-nav fl-column fl-full-center'
               style={{ zIndex: '7' }}
           >
@@ -1531,16 +1476,16 @@ const Vassiliki = ( { match }) => {
                       alt=''
                       className='arrow-img'
                       style={{
-                          transform: 'rotate(-180deg)',
+                          transform: 'rotate(-90deg)',
                       }}
                   />
               </a>
 
               {/*<div*/}
-              {/*className={*/}
-              {/*currentBackground === 5 ? 'dot-img-focused dot-img' : 'dot-img'*/}
-              {/*}*/}
-              {/*style={{ marginTop: '2vw' }}*/}
+                  {/*className={*/}
+                      {/*currentBackground === 5 ? 'dot-img-focused dot-img' : 'dot-img'*/}
+                  {/*}*/}
+                  {/*style={{ marginTop: '2vw' }}*/}
               {/*/>*/}
 
               <div
@@ -1562,9 +1507,9 @@ const Vassiliki = ( { match }) => {
               />
 
               {/*<div*/}
-              {/*className={*/}
-              {/*currentBackground === 1 ? 'dot-img-focused dot-img' : 'dot-img'*/}
-              {/*}*/}
+                  {/*className={*/}
+                      {/*currentBackground === 1 ? 'dot-img-focused dot-img' : 'dot-img'*/}
+                  {/*}*/}
               {/*/>*/}
 
               <a
@@ -1573,6 +1518,7 @@ const Vassiliki = ( { match }) => {
                       e.preventDefault();
                       prevImage();
                   }}
+                  style={{ marginTop: '3vw' }}
                   className={
                       currentBackground === 1
                           ? 'arrow-image-wrapper arrow-image-gone'
@@ -1583,6 +1529,9 @@ const Vassiliki = ( { match }) => {
                       src='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/arrow.svg'
                       alt=''
                       className='arrow-img'
+                      style={{
+                          transform: 'rotate(90deg)',
+                      }}
                   />
               </a>
           </div>
@@ -1635,12 +1584,12 @@ const Vassiliki = ( { match }) => {
           <div className='text-1' style={{ marginBottom: '0.5vw' }}>
               Karayanni
           </div>
-          <div className='text-2' style={{ marginBottom: 'min(9vw, 10vh)' }}>
+          <div className='text-2' style={{ marginBottom: 'min(18vw, 5vh)' }}>
               Coloratura Soprano
           </div>
 
 
-          <a onClick={()=>setCurrentBackground(2)} className="btn-enter" href="#!">enter</a>
+          <a onClick={()=>closeIntro()} className="btn-enter" href="#!">enter</a>
 
 
           <a
@@ -1687,4 +1636,4 @@ const Vassiliki = ( { match }) => {
   );
 };
 
-export default Vassiliki;
+export default Vassiliki2;
