@@ -20,7 +20,7 @@ module.exports = {
                 use: ["style-loader", "css-loader"]
             },
             {
-                test: /\.(jpe?g|ico|gif|png|svg)$/,
+                test: /\.(jpe?g|ico|gif|png|svg|mp4)$/,
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',

@@ -26,7 +26,8 @@ import background2 from '../img/background2.jpg';
 import background3 from '../img/background3.jpg';
 import background4 from '../img/background4.jpg';
 import background5 from '../img/background5.jpg';
-import background6 from '../img/background6.jpg';
+import background6 from "../img/background6.jpg";
+import backgroundVideo from "../img/vassvideo.mp4";
 
 import { useMediaQuery } from 'react-responsive';
 
@@ -40,6 +41,7 @@ const GlobalStyle = createGlobalStyle`
   html, body, #root {
     height: 100%;
     width: 100%;
+    margin: 0;
     overflow: hidden;
     font-family: 'Lato', sans-serif;
   }
@@ -82,53 +84,37 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .background1 {
-    width: 110vw !important;
+    //width: 110vw !important;
+    height: 100% !important;
     min-width: 10vw !important;
     transform: scale(1.1) translateX(0);
-    
-    &:before {
-      content: url('./img/eye-left.png');
-      position:fixed;
-      left: 39%;
-      top: 33%;
-      z-index: 10;
-      animation: 6s eye-animation forwards;
-      animation-delay: 1s;
-      opacity: 0;
-    }
-    
-    &:after {
-      content: url('./img/eye-right.png');
-      position:fixed;
-      z-index:1;
-      left: 65%;
-      top: 33%;
-      animation: 6s eye-animation forwards;
-      animation-delay: 1s;
-      opacity: 0;
-    }
+    //
+    //&:before {
+    //  content: url('./img/eye-left.png');
+    //  position:fixed;
+    //  left: 39%;
+    //  top: 33%;
+    //  z-index: 10;
+    //  animation: 6s eye-animation forwards;
+    //  animation-delay: 1s;
+    //  opacity: 0;
+    //}
+    //
+    //&:after {
+    //  content: url('./img/eye-right.png');
+    //  position:fixed;
+    //  z-index:1;
+    //  left: 65%;
+    //  top: 33%;
+    //  animation: 6s eye-animation forwards;
+    //  animation-delay: 1s;
+    //  opacity: 0;
+    //}
   }
-  
-  @keyframes eye-animation {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  
-  50% {
-    transform: translateX(-3px);
-    opacity: 1;
-  }
-  
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-} 
+   
 
   .screen-1-animation {
-    opacity: 1 !important;
-    transform: scale(1.1) translateX(0);
+    transform: scale(1.2) translateX(0);
     animation: 6s screen-1-animation both;
     animation-delay: .5s;
   }
@@ -140,7 +126,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   10% {
-    opacity: 1;
+    opacity: .5;
   }
   
   50% {
@@ -155,13 +141,15 @@ const GlobalStyle = createGlobalStyle`
   100% {
     transform: scale(1.1) translateX(0);
     opacity: 0;
+    z-index: -20;
   }
 }
 
   .background2 {
     width: 110vw !important;
-    transform: scale(1) translateX(-45vw);
-    opacity: 1;
+    transform: scale(1.1) translate(-40vw, 9vw);
+    //opacity: 1;
+    background-size: contain !important;
     
      &:after {
     content: '';
@@ -175,44 +163,91 @@ const GlobalStyle = createGlobalStyle`
   }
   
   .background2 div {
-    background-size: inherit !important;
+    background-size: contain !important;
     transform: scale(1.1);
     bottom: 0;
   }
   
   .screen-2-animation {
     opacity: 1 !important;
-    animation: 5s screen-2-animation ease-in-out;
-    animation-delay: 1s;
+    animation: 5s screen-2-animation linear;
+  }
+  
+  .screen-2-animation-2 {
+    opacity: 1 !important;
+    animation: 5s screen-2-animation-2 infinite;
   }
   
   @keyframes screen-2-animation {
   0% {
-    transform: scale(1) translate(-10vw, 3vw);
+    transform: scale(1.5) translate(-16vw, 23vw);
+    opacity: 0;
   }
   
   50% {
-    transform: scale(1)  translate(-20vw, 0);
+    transform: scale(1.1) translate(-50vw, 7vw);
+    opacity: 1;
   }
   
   100% {
-    transform: scale(1) translateX(-45vw);
+    transform: scale(1.1) translate(-40vw, 9vw);
+    opacity: 1;
+  }
+}
+
+ @keyframes screen-2-animation-2 {
+  0% {
+    transform: scale(1.1) translate(-40vw, 9vw);
+  }
+  
+
+  50% {
+    transform: scale(1.1) translate(-45vw, 7vw);
+  }
+  
+   100% {
+    transform: scale(1.1) translate(-40vw, 9vw);
   }
 }
 
   .background3 {
     transform: translateX(-20%);
     
+    &:before {
+      content: url('./img/background3-lady.png');
+      position:fixed;
+      left: 23%;
+      top: 33%;
+      z-index: 1;
+      transform: translate(10vw, 20vw);
+      animation: 4s screen3-animation-lady forwards;
+      animation-delay: 1s;
+      opacity: 0;
+    }
+    
     &:after {
     content: '';
     position: absolute;
     right: -30vw;
     bottom: 0;
+    z-index: 2;
     width: 230vw;
     height: 240vw;
     background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
     }
   }
+  
+  @keyframes screen3-animation-lady {
+  0% {
+    transform: translate(20vw, 3vw);
+    opacity: 1;
+  }
+ 
+  100% {
+    transform: translate(10vw, 20vw);
+    opacity: 1;
+  }
+} 
 
   .screen-3-animation {
     opacity: 1 !important;
@@ -299,7 +334,7 @@ const GlobalStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
-    right: 6vw;
+    right: 7vw;
     bottom: 12vw;
     z-index: 4;
     opacity: 0;
@@ -363,6 +398,42 @@ const GlobalStyle = createGlobalStyle`
 
   .share-icon {
     width: 5.5vw;
+  }
+  
+  .background1-wrapper {
+  background-image: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+  width: 100%;
+  height: calc(100vh - 80px);
+  min-height: 600px;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  }
+  
+  .background1 {
+    position: relative;
+    z-index: -1;
+    width: 100%;
+    transform: scale(1.3);
+    margin-top: 5vw;
+    opacity: 0;
+    object-fit: cover;
+    //transform: scale(1.3) translateX(0);
+    animation: 6s screen-1-animation both;
+    animation-delay: .5s;
+    box-shadow: 0 0 5px #888;
+    
+     &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: red;
+    }
+   
   }
 
 
@@ -457,6 +528,7 @@ const GlobalStyle = createGlobalStyle`
     opacity: 0;
   }
   
+  
   .background1 > div {
     &:after {
     content: '';
@@ -480,6 +552,7 @@ const GlobalStyle = createGlobalStyle`
   .insta-icon-wrapper {
     position:fixed;
     z-index: 10;
+    top: 2vw;
     transform: translateX(-90vw);
     opacity: 0;
 
@@ -489,6 +562,7 @@ const GlobalStyle = createGlobalStyle`
   .fb-icon-wrapper {
      position:fixed;
     z-index: 10;
+    top: 2vw;
     transform: translateX(-100vw);
     opacity: 0;
 
@@ -511,7 +585,7 @@ const GlobalStyle = createGlobalStyle`
     position: fixed;
     left: 50%;
     //transform: translateX(-50%);
-    bottom: 9vw;
+    bottom: 11vw;
     text-align: center;
     
     margin-top: auto;
@@ -524,7 +598,7 @@ const GlobalStyle = createGlobalStyle`
   
   
   .save-wrapper-animation {
-  transform: translateX(0);
+  transform: translateX(-50%);
     opacity: 1;
   }
   
@@ -786,7 +860,6 @@ const GlobalStyle = createGlobalStyle`
 		transform: translate3d(0, 100%, 0);
 	}
 }
-}
 
 
 .fadeInOut {
@@ -906,6 +979,10 @@ const Vassiliki = ( { match }) => {
 
   const [redirect, setRedirect] = useState(false);
 
+  const [intro, setIntro] = useState(true);
+
+    const [intervalId, setIntervalId] = useState();
+
   const isMobile = useMediaQuery({ query: `(max-width: 500px)` });
   useEffect(() => {
     if (window.innerWidth >= 500) {
@@ -947,7 +1024,6 @@ const Vassiliki = ( { match }) => {
           $('.background4').addClass('hide');
           $('.background5').addClass('hide');
           $('.background6').addClass('hide');
-          $('.btn-enter').addClass('btn-enter-show');
           $('.share-icon-wrapper-2').addClass('hide');
           $('.insta-icon-wrapper').removeClass('insta-animation');
           $('.fb-icon-wrapper').removeClass('fb-animation');
@@ -1019,7 +1095,6 @@ const Vassiliki = ( { match }) => {
 
           $('.image-nav').addClass('arrow-image-wrapper-show');
           $('.save-wrapper').addClass('save-wrapper-animation');
-          $('.share-icon-wrapper-2').addClass('btn-enter-show');
           $('.share-icon-wrapper-2').removeClass('hide');
           $('.insta-icon-wrapper').addClass('insta-animation');
           $('.fb-icon-wrapper').addClass('fb-animation');
@@ -1036,11 +1111,16 @@ const Vassiliki = ( { match }) => {
 
 
         $('.background2').addClass('reset');
+        $('.background2').addClass('screen-2-animation');
 
         setTimeout(() => {
           $('.background2').removeClass('reset');
-          $('.background2').addClass('screen-2-animation');
         }, 400);
+
+          setTimeout(() => {
+              $('.background2').removeClass('screen-2-animation');
+              $('.background2').addClass('screen-2-animation-2');
+          }, 5000);
 
         break;
       case 3:
@@ -1215,14 +1295,17 @@ const Vassiliki = ( { match }) => {
     ...swipeConfig,
   });
 
+
   useEffect(() => {
       showIntro();
   //  history.push('/vassiliki-Karayanni');
-
-      setTimeout(() => {
-          closeIntro();
-          setBackground(2)
+      const id = setTimeout(() => {
+          closeIntro()
+          setCurrentBackground(2);
       }, 6500);
+      setIntervalId(id);
+      return () => clearInterval(id);
+
       //eslint-disable-next-line
       }, []);
 
@@ -1307,8 +1390,10 @@ const Vassiliki = ( { match }) => {
   };
 
   const onEnterClick = () => {
+      clearInterval(intervalId)
       closeIntro();
-      setBackground(2)
+      setCurrentBackground(2)
+      // setBackground(2);
   }
 
   const customTransition = `
@@ -1322,30 +1407,6 @@ const Vassiliki = ( { match }) => {
         return getToColor(uv + (offset * (1. - 1./smoothstep(0.01, 1.0, progress))) );
       }
   `;
-
-  const myTransition = `
-  const float time = 1;
-		const float progress = ;
-		uniform float width;
-		uniform float scaleX;
-		uniform float scaleY;
-		uniform float transition;
-		uniform float radius;
-		uniform float swipe;
-		uniform sampler2D texture1;
-		uniform sampler2D texture2;
-		uniform sampler2D displacement;
-		
-  vec4 transition (vec2 uv) {
-    vec2 newUV = (uv - vec2(0.5))*resolution.zw + vec2(0.5);
-    vec4 noise = texture2D(displacement, mirrored(newUV+time*0.04));
-    float prog = progress*0.8 -0.05 + noise.g * 0.06;
-		  float intpl = pow(abs(smoothstep(0., 1., (prog*2. - uv.x + 0.5))), 10.);
-		  
-		  return return getToColor(uv + intpl );
-}
-`;
-
 
   const startingProgress = 0;
   const tension = 60;
@@ -1362,28 +1423,28 @@ const Vassiliki = ( { match }) => {
       {/*<Preloader dark={false} show={false} />*/}
       <div
         {...handler}
-        style={{ position: 'fixed', width: '100vw', height: '100%' }}
+        style={{ position: 'fixed', width: '100vw', height: '100%', background: '#000' }}
       >
-        <Spring
-          reset={currentBackground === 1}
-          config={{
-            tension: tension,
-            friction: friction,
-            clamp: true,
-          }}
-          from={{ progress: startingProgress }}
-          to={{ progress: 1 }}
-        >
-          {(animProps) => (
-            <ReactGlTransitionImage
-              src={background1}
-              transition={transition}
-              className='background background1'
-              progress={animProps.progress}
-              style={{ minWidth: '100vw', minHeight: '100%' }}
-            />
-          )}
-        </Spring>
+        {/*<Spring*/}
+          {/*reset={currentBackground === 1}*/}
+          {/*config={{*/}
+            {/*tension: tension,*/}
+            {/*friction: friction,*/}
+            {/*clamp: true,*/}
+          {/*}}*/}
+          {/*from={{ progress: startingProgress }}*/}
+          {/*to={{ progress: 1 }}*/}
+        {/*>*/}
+          {/*{(animProps) => (*/}
+            {/*<ReactGlTransitionImage*/}
+              {/*src={background1}*/}
+              {/*transition={transition}*/}
+              {/*className='background background1'*/}
+              {/*progress={animProps.progress}*/}
+              {/*style={{ minWidth: '100vw', minHeight: '100%' }}*/}
+            {/*/>*/}
+          {/*)}*/}
+        {/*</Spring>*/}
         <Spring
           reset={currentBackground === 2}
           config={{
@@ -1442,6 +1503,12 @@ const Vassiliki = ( { match }) => {
             />
           )}
         </Spring>
+
+    {/*<div className='background1-wrapper'>*/}
+          <video autoPlay muted="muted" loop  className='background1'>
+              <source src={backgroundVideo} type="video/mp4"/>
+          </video>
+    {/*</div>*/}
 
         <img src={background5} className='background share-background' />
         <div
@@ -1607,6 +1674,16 @@ const Vassiliki = ( { match }) => {
           url='https://artcool-web-files.s3.eu-central-1.wasabisys.com/cards/dimitris_stefanopoulos/music.mp3'
         />
 
+          <a
+              className='save-wrapper fl-row fl-align-center'
+              href='#!'
+              onClick={(e) => {
+                  e.preventDefault();
+                  share();
+              }}
+          >SAVE MY CONTACTS
+          </a>
+
 
 
          <div
@@ -1709,7 +1786,7 @@ const Vassiliki = ( { match }) => {
           </a>
 
         <a
-          className='share-icon-wrapper-2'
+          className='share-icon-wrapper-2 hide'
           href='#!'
           onClick={(e) => {
             e.preventDefault();
@@ -1739,7 +1816,7 @@ const Vassiliki = ( { match }) => {
           </div>
 
 
-          <a onClick={()=> onEnterClick()} className="btn-enter" href="#!">enter</a>
+          <a onClick={onEnterClick} className="btn-enter" href="#!">enter</a>
 
 
           <a
@@ -1760,15 +1837,6 @@ const Vassiliki = ( { match }) => {
               www.vassilikikaragianni.com
           </a>
 
-          <a
-            className='save-wrapper fl-row fl-align-center'
-            href='#!'
-            onClick={(e) => {
-              e.preventDefault();
-              share();
-            }}
-          >SAVE MY CONTACTS
-          </a>
           <div
             style={{
               opacity: '0',
