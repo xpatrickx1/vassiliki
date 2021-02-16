@@ -84,7 +84,7 @@ const GlobalStyle = createGlobalStyle`
   .background1-wrapper {
     opacity: 1;
     z-index: 10;
-    background:#000;
+    //background:#000;
     
   }
 
@@ -111,7 +111,7 @@ const GlobalStyle = createGlobalStyle`
   .screen-1-animation {
     transform: scale(1.2) translateX(0);
     animation: 6s screen-1-animation both;
-    animation-delay: .5s;
+    //animation-delay: .5s;
   }
   
   @keyframes screen-1-animation {
