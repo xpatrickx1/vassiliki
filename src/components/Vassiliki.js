@@ -83,7 +83,7 @@ const GlobalStyle = createGlobalStyle`
   
   .background1-wrapper {
     opacity: 1;
-    z-index: 20;
+    z-index: 10;
     background:#000;
     
   }
@@ -92,6 +92,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100% !important;
     min-width: 10vw !important;
     transform: scale(1.1) translateX(0);
+    z-index: 12;
     opacity: 0;
     
     &:after {
