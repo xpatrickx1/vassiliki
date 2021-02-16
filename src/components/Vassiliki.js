@@ -85,7 +85,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100% !important;
     min-width: 10vw !important;
     transform: scale(1.1) translateX(0);
-    opacity: 1 !important;
+    opacity: 0;
     
     &:after {
     content: '';
@@ -1425,11 +1425,11 @@ const Vassiliki = ( { match }) => {
           )}
         </Spring>
 
-    <div className='background1-wrapper'>
+    {/*<div className='background1-wrapper'>*/}
           <video autoPlay muted="muted" loop  className='background1'>
               <source src={backgroundVideo} type="video/mp4"/>
           </video>
-    </div>
+    {/*</div>*/}
         <img src={background5} className='background share-background' />
         <div
           className='share-block fl-column fl-full-center'
