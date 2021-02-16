@@ -80,6 +80,13 @@ const GlobalStyle = createGlobalStyle`
     transition: opacity 0s linear, transform 8s linear !important;
     opacity: 0;
   }
+  
+  .background1-wrapper {
+    opacity: 1;
+    z-index: 20;
+    background:#000;
+    
+  }
 
   .background1 {
     height: 100% !important;
