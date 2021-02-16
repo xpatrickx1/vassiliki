@@ -170,23 +170,22 @@ const GlobalStyle = createGlobalStyle`
   }
   
   100% {
-    transform: scale(1.1) translate(-40vw, 8vw);
+    transform: scale(1.1) translate(-40vw, 4vw);
     opacity: 1;
   }
 }
 
  @keyframes screen-2-animation-2 {
   0% {
-    transform: scale(1.1) translate(-40vw, 8vw);
+    transform: scale(1.1) translate(-40vw, 4vw);
   }
-  
 
   50% {
     transform: scale(1.1) translate(-45vw, 6vw);
   }
   
    100% {
-    transform: scale(1.1) translate(-40vw, 8vw);
+    transform: scale(1.1) translate(-40vw, 4vw);
   }
 }
 
@@ -1425,11 +1424,11 @@ const Vassiliki = ( { match }) => {
           )}
         </Spring>
 
-    {/*<div className='background1-wrapper'>*/}
+    <div className='background1-wrapper'>
           <video autoPlay muted="muted" loop  className='background1'>
               <source src={backgroundVideo} type="video/mp4"/>
           </video>
-    {/*</div>*/}
+    </div>
         <img src={background5} className='background share-background' />
         <div
           className='share-block fl-column fl-full-center'
