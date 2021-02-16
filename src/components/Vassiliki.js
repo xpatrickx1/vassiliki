@@ -102,7 +102,7 @@ const GlobalStyle = createGlobalStyle`
     z-index: 22;
     width: 230vw;
     height: 240vw;
-    background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+    background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
     }
   }
    
@@ -263,7 +263,7 @@ const GlobalStyle = createGlobalStyle`
     bottom: 0;
     width: 230vw;
     height: 240vw;
-    background: linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(2,2,3,0.6629026610644257) 180%,rgba(0,0,0,1) 100%);
+    background: linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(0,0,0,1) 100%);
     }
     
     &:before {
@@ -435,7 +435,7 @@ const GlobalStyle = createGlobalStyle`
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 81%, rgba(0,0,0,1) 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
       z-index: 1;
     }
   }
@@ -554,7 +554,7 @@ const GlobalStyle = createGlobalStyle`
     bottom: -10vw;
     width: 130vw;
     height: 80vw;
-    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
     }
     
    }
