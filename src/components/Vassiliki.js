@@ -21,18 +21,16 @@ import { Redirect } from 'react-router-dom';
 // import Preloader from './functional/Preloader';
 // import SaveVCF from './functional/SaveVCF';
 
-import background1 from '../img/background1.jpg';
 import background2 from '../img/background2.jpg';
 import background3 from '../img/background3.jpg';
 import background4 from '../img/background4.jpg';
 import background5 from '../img/background5.jpg';
-import background6 from "../img/background6.jpg";
 import backgroundVideo from "../img/vassvideo.mp4";
 
 import { useMediaQuery } from 'react-responsive';
 
 import ReactGlTransitionImage, {
-    blobbyTransition ,
+    noiseSwirlsTransition ,
 } from 'react-gl-transition-image';
 
 import { Spring } from 'react-spring/renderprops';
@@ -84,32 +82,21 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .background1 {
-    //width: 110vw !important;
     height: 100% !important;
     min-width: 10vw !important;
     transform: scale(1.1) translateX(0);
-    //
-    //&:before {
-    //  content: url('./img/eye-left.png');
-    //  position:fixed;
-    //  left: 39%;
-    //  top: 33%;
-    //  z-index: 10;
-    //  animation: 6s eye-animation forwards;
-    //  animation-delay: 1s;
-    //  opacity: 0;
-    //}
-    //
-    //&:after {
-    //  content: url('./img/eye-right.png');
-    //  position:fixed;
-    //  z-index:1;
-    //  left: 65%;
-    //  top: 33%;
-    //  animation: 6s eye-animation forwards;
-    //  animation-delay: 1s;
-    //  opacity: 0;
-    //}
+    opacity: 1 !important;
+    
+    &:after {
+    content: '';
+    position: absolute;
+    right: -30vw;
+    bottom: 0;
+    z-index: 22;
+    width: 230vw;
+    height: 240vw;
+    background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
+    }
   }
    
 
@@ -146,10 +133,8 @@ const GlobalStyle = createGlobalStyle`
 }
 
   .background2 {
-    width: 110vw !important;
-    transform: scale(1.1) translate(-40vw, 9vw);
-    //opacity: 1;
-    background-size: contain !important;
+    transform: translateX(-20%);
+    opacity: 0;
     
      &:after {
     content: '';
@@ -162,11 +147,6 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   
-  .background2 div {
-    background-size: contain !important;
-    transform: scale(1.1);
-    bottom: 0;
-  }
   
   .screen-2-animation {
     opacity: 1 !important;
@@ -181,48 +161,49 @@ const GlobalStyle = createGlobalStyle`
   @keyframes screen-2-animation {
   0% {
     transform: scale(1.5) translate(-16vw, 23vw);
-    opacity: 0;
+    opacity: 1;
   }
   
   50% {
-    transform: scale(1.1) translate(-50vw, 7vw);
+    transform: scale(1.1) translate(-50vw, 6vw);
     opacity: 1;
   }
   
   100% {
-    transform: scale(1.1) translate(-40vw, 9vw);
+    transform: scale(1.1) translate(-40vw, 8vw);
     opacity: 1;
   }
 }
 
  @keyframes screen-2-animation-2 {
   0% {
-    transform: scale(1.1) translate(-40vw, 9vw);
+    transform: scale(1.1) translate(-40vw, 8vw);
   }
   
 
   50% {
-    transform: scale(1.1) translate(-45vw, 7vw);
+    transform: scale(1.1) translate(-45vw, 6vw);
   }
   
    100% {
-    transform: scale(1.1) translate(-40vw, 9vw);
+    transform: scale(1.1) translate(-40vw, 8vw);
   }
 }
 
   .background3 {
     transform: translateX(-20%);
+    opacity: 0;
+    position: relative;
     
     &:before {
       content: url('./img/background3-lady.png');
-      position:fixed;
-      left: 23%;
-      top: 33%;
+      position: absolute;
+      left: 19%;
+      top: 39%;
       z-index: 1;
-      transform: translate(10vw, 20vw);
-      animation: 4s screen3-animation-lady forwards;
+      animation: 7s screen3-animation-lady linear;
       animation-delay: 1s;
-      opacity: 0;
+      opacity: 1;
     }
     
     &:after {
@@ -239,23 +220,35 @@ const GlobalStyle = createGlobalStyle`
   
   @keyframes screen3-animation-lady {
   0% {
-    transform: translate(20vw, 3vw);
+    transform: translate(-24%, -20%);
     opacity: 1;
   }
  
   100% {
-    transform: translate(10vw, 20vw);
+    transform: translate(0, 0);
     opacity: 1;
   }
 } 
 
   .screen-3-animation {
     opacity: 1 !important;
-    transform: translateX(-30%) !important;
+    animation: 5s screen3-animation linear;
+  }
+  
+  @keyframes screen3-animation {
+  0% {
+    transform: translateX(-10%);
+    opacity: 1;
+  }
+ 
+  100% {
+    transform: translateX(-20%);
+    opacity: 1;
+  }
   }
 
   .background4 {
-    transform: scale(1.2, 1.2) translateX(0%);
+    transform: scale(1.2, 1.2) translateX(-10%);
     
     &:after {
     content: '';
@@ -266,11 +259,35 @@ const GlobalStyle = createGlobalStyle`
     height: 240vw;
     background: linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(2,2,3,0.6629026610644257) 180%,rgba(0,0,0,1) 100%);
     }
+    
+    &:before {
+      content: url('./img/background4-table.png');
+      position: absolute;
+      left: -2%;
+      top: 55%;
+      z-index: 1;
+      transform: translate(5%, -7%);
+      animation: 10s screen4-animation-table linear;
+      animation-delay: 1s;
+      opacity: 1;
+    }
   }
+  
+   @keyframes screen4-animation-table {
+  0% {
+    transform: translate(10%, 0);
+    opacity: 1;
+  }
+ 
+  100% {
+    transform: translate(5%, -7%);
+    opacity: 1;
+  }
+} 
 
   .screen-4-animation {
     opacity: 1 !important;
-    transform: scale(1, 1) translateX(-15%);
+    transform: scale(1, 1) translateX(-5%);
   }
 
   .background5 {
@@ -279,7 +296,7 @@ const GlobalStyle = createGlobalStyle`
 
   .screen-5-animation {
     opacity: 1 !important;
-    transform: scale(1, 1) translateX(-25%);
+    transform: scale(1, 1) translateX(-15%);
   }
   
   
@@ -401,13 +418,20 @@ const GlobalStyle = createGlobalStyle`
   }
   
   .background1-wrapper {
-  background-image: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 48%, rgba(0,0,0,1) 100%);
-  width: 100%;
-  height: calc(100vh - 80px);
-  min-height: 600px;
-  object-fit: cover;
-  position: relative;
-  z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      top: 20vw;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(2,2,3,0.6629026610644257) 81%, rgba(0,0,0,1) 100%);
+      z-index: 1;
+    }
   }
   
   .background1 {
@@ -418,22 +442,9 @@ const GlobalStyle = createGlobalStyle`
     margin-top: 5vw;
     opacity: 0;
     object-fit: cover;
-    //transform: scale(1.3) translateX(0);
     animation: 6s screen-1-animation both;
     animation-delay: .5s;
     box-shadow: 0 0 5px #888;
-    
-     &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      background: red;
-    }
-   
   }
 
 
@@ -446,7 +457,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   .info-wrapper-bottom {
-    top: 76vw;
+    top: 65vw;
     left: 50%;
     transform: translate(-50%, 0);
     
@@ -541,6 +552,7 @@ const GlobalStyle = createGlobalStyle`
     }
     
    }
+  
 
 
   .insta-icon {
@@ -584,7 +596,7 @@ const GlobalStyle = createGlobalStyle`
     z-index: 8;
     position: fixed;
     left: 50%;
-    //transform: translateX(-50%);
+   
     bottom: 11vw;
     text-align: center;
     
@@ -803,7 +815,6 @@ const GlobalStyle = createGlobalStyle`
     from {
         transform: translate3d(0,20px,0);
         opacity: 0;
-    
     }
 
     to {
@@ -822,26 +833,7 @@ const GlobalStyle = createGlobalStyle`
     transform: translate3d(0, 100%, 0);
   }
 }
-//
-//.background1-animation {
-//  animation: 6s background1-animation both;
-//  animation-delay:1s;   
-//}
-//
-//@keyframes background1-animation {
-//    0% {
-//		opacity: 0;
-//	}	25% {
-//		opacity: 1;
-//	}
-//    75% {
-//		opacity: 1;
-//	}
-//    100% {
-//		opacity: 0;
-//	}
-//}
-//}
+
 
 @keyframes fadeInOut {
     0% {
@@ -979,8 +971,6 @@ const Vassiliki = ( { match }) => {
 
   const [redirect, setRedirect] = useState(false);
 
-  const [intro, setIntro] = useState(true);
-
     const [intervalId, setIntervalId] = useState();
 
   const isMobile = useMediaQuery({ query: `(max-width: 500px)` });
@@ -997,7 +987,7 @@ const Vassiliki = ( { match }) => {
 
   const prevImage = () => {
     setDirection(true);
-    setCurrentBackground(currentBackground - 1 < 1 ? 1 : currentBackground - 1);
+    setCurrentBackground(currentBackground - 1 < 2 ? 2 : currentBackground - 1);
   };
 
   useEffect(() => {
@@ -1011,12 +1001,7 @@ const Vassiliki = ( { match }) => {
     switch (background) {
       case 1:
         if (backwards) {
-          // $('.background1').removeClass('hide');
-          // $('.background2').removeClass('hide');
-          // $('.background3').addClass('hide');
-          // $('.background4').addClass('hide');
-          // $('.background5').addClass('hide');
-          // $('.background6').addClass('hide');
+
         } else {
           $('.background1').removeClass('hide');
           $('.background2').addClass('hide');
@@ -1034,28 +1019,18 @@ const Vassiliki = ( { match }) => {
         }
 
         if (!firstLoad) {
-          // $('.background1').addClass('bringForth');
+
           $('.background2').removeClass('bringForth');
           $('.background3').removeClass('bringForth');
           $('.background4').removeClass('bringForth');
           $('.background5').removeClass('bringForth');
           $('.background6').removeClass('bringForth');
-          //
+
           $('.background2').removeClass('screen-2-animation');
           $('.background3').removeClass('screen-3-animation');
           $('.background4').removeClass('screen-4-animation');
           $('.background5').removeClass('screen-5-animation');
 
-          // $('.insta-icon-wrapper').removeClass('insta-animation');
-          // $('.fb-icon-wrapper').removeClass('fb-animation');
-          // $('.background2-shadow').addClass('hide');
-          //
-          // $('.background1').addClass('reset');
-
-          // setTimeout(() => {
-          //   $('.background1').removeClass('reset');
-          //   $('.background1').addClass('screen-1-animation');
-          // }, 400);
         } else {
           $('.background1').addClass('screen-1-animation');
           setFirstLoad(false);
@@ -1064,14 +1039,14 @@ const Vassiliki = ( { match }) => {
         break;
       case 2:
         if (backwards) {
-          // $('.background1').removeClass('hide');
+
           $('.background2').removeClass('hide');
           $('.background3').removeClass('hide');
           $('.background4').addClass('hide');
           $('.background5').addClass('hide');
           $('.background6').addClass('hide');
         } else {
-          // $('.background1').removeClass('hide');
+
           $('.background2').removeClass('hide');
           $('.background3').addClass('hide');
           $('.background4').addClass('hide');
@@ -1080,7 +1055,7 @@ const Vassiliki = ( { match }) => {
 
         }
 
-        // $('.background1').removeClass('bringForth');
+
         $('.background2').addClass('bringForth');
         $('.background3').removeClass('bringForth');
         $('.background4').removeClass('bringForth');
@@ -1111,10 +1086,10 @@ const Vassiliki = ( { match }) => {
 
 
         $('.background2').addClass('reset');
-        $('.background2').addClass('screen-2-animation');
 
         setTimeout(() => {
           $('.background2').removeClass('reset');
+          $('.background2').addClass('screen-2-animation');
         }, 400);
 
           setTimeout(() => {
@@ -1125,14 +1100,14 @@ const Vassiliki = ( { match }) => {
         break;
       case 3:
         if (backwards) {
-          // $('.background1').removeClass('hide');
+
           $('.background2').removeClass('hide');
           $('.background3').removeClass('hide');
           $('.background4').removeClass('hide');
           $('.background5').addClass('hide');
           $('.background6').addClass('hide');
         } else {
-          // $('.background1').removeClass('hide');
+
           $('.background2').removeClass('hide');
           $('.background3').removeClass('hide');
           $('.background4').addClass('hide');
@@ -1140,15 +1115,16 @@ const Vassiliki = ( { match }) => {
           $('.background6').addClass('hide');
         }
 
-        // $('.background1').removeClass('bringForth');
+
         $('.background2').removeClass('bringForth');
         $('.background3').addClass('bringForth');
         $('.background4').removeClass('bringForth');
         $('.background5').removeClass('bringForth');
         $('.background6').removeClass('bringForth');
 
-        // $('.background1').removeClass('screen-1-animation');
+
         $('.background2').removeClass('screen-2-animation');
+        $('.background2').removeClass('screen-2-animation-2');
         $('.background4').removeClass('screen-4-animation');
         $('.background5').removeClass('screen-5-animation');
 
@@ -1161,14 +1137,14 @@ const Vassiliki = ( { match }) => {
         break;
       case 4:
         if (backwards) {
-          // $('.background1').removeClass('hide');
+
           $('.background2').removeClass('hide');
           $('.background3').removeClass('hide');
           $('.background4').removeClass('hide');
           $('.background5').removeClass('hide');
           $('.background6').addClass('hide');
         } else {
-          // $('.background1').removeClass('hide');
+
           $('.background2').removeClass('hide');
           $('.background3').removeClass('hide');
           $('.background4').removeClass('hide');
@@ -1176,15 +1152,16 @@ const Vassiliki = ( { match }) => {
           $('.background6').addClass('hide');
         }
 
-        // $('.background1').removeClass('bringForth');
+
         $('.background2').removeClass('bringForth');
         $('.background3').removeClass('bringForth');
         $('.background4').addClass('bringForth');
         $('.background5').removeClass('bringForth');
         $('.background6').removeClass('bringForth');
 
-        // $('.background1').removeClass('screen-1-animation');
+
         $('.background2').removeClass('screen-2-animation');
+        $('.background2').removeClass('screen-2-animation-2');
         $('.background3').removeClass('screen-3-animation');
         $('.background5').removeClass('screen-5-animation');
 
@@ -1196,42 +1173,7 @@ const Vassiliki = ( { match }) => {
         }, 400);
 
         break;
-      // case 5:
-      //   if (backwards) {
-      //     $('.background1').removeClass('hide');
-      //     $('.background2').removeClass('hide');
-      //     $('.background3').removeClass('hide');
-      //     $('.background4').removeClass('hide');
-      //     $('.background5').removeClass('hide');
-      //     $('.background6').removeClass('hide');
-      //   } else {
-      //     $('.background1').removeClass('hide');
-      //     $('.background2').removeClass('hide');
-      //     $('.background3').removeClass('hide');
-      //     $('.background4').removeClass('hide');
-      //     $('.background5').removeClass('hide');
-      //     $('.background6').addClass('hide');
-      //   }
-      //
-      //   $('.background1').removeClass('bringForth');
-      //   $('.background2').removeClass('bringForth');
-      //   $('.background3').removeClass('bringForth');
-      //   $('.background4').removeClass('bringForth');
-      //   $('.background5').addClass('bringForth');
-      //   $('.background6').removeClass('bringForth');
-      //
-      //   $('.background1').removeClass('screen-1-animation');
-      //   $('.background2').removeClass('screen-2-animation');
-      //   $('.background3').removeClass('screen-3-animation');
-      //   $('.background4').removeClass('screen-4-animation');
-      //
-      //   $('.background5').addClass('reset');
-      //
-      //   setTimeout(() => {
-      //     $('.background5').removeClass('reset');
-      //     $('.background5').addClass('screen-5-animation');
-      //   }, 400);
-      //   break;
+
       default:
         if (backwards) {
           $('.background1').removeClass('hide');
@@ -1300,7 +1242,7 @@ const Vassiliki = ( { match }) => {
       showIntro();
   //  history.push('/vassiliki-Karayanni');
       const id = setTimeout(() => {
-          closeIntro()
+          closeIntro();
           setCurrentBackground(2);
       }, 6500);
       setIntervalId(id);
@@ -1392,8 +1334,7 @@ const Vassiliki = ( { match }) => {
   const onEnterClick = () => {
       clearInterval(intervalId)
       closeIntro();
-      setCurrentBackground(2)
-      // setBackground(2);
+      setCurrentBackground(2);
   }
 
   const customTransition = `
@@ -1409,9 +1350,9 @@ const Vassiliki = ( { match }) => {
   `;
 
   const startingProgress = 0;
-  const tension = 60;
-  const friction = 15;
-  const transition = blobbyTransition ;
+  const tension = 100;
+  const friction = 45;
+  const transition = noiseSwirlsTransition ;
 
   if (redirect) {
     return <Redirect to={'/view' + window.location.pathname} />;
@@ -1425,26 +1366,6 @@ const Vassiliki = ( { match }) => {
         {...handler}
         style={{ position: 'fixed', width: '100vw', height: '100%', background: '#000' }}
       >
-        {/*<Spring*/}
-          {/*reset={currentBackground === 1}*/}
-          {/*config={{*/}
-            {/*tension: tension,*/}
-            {/*friction: friction,*/}
-            {/*clamp: true,*/}
-          {/*}}*/}
-          {/*from={{ progress: startingProgress }}*/}
-          {/*to={{ progress: 1 }}*/}
-        {/*>*/}
-          {/*{(animProps) => (*/}
-            {/*<ReactGlTransitionImage*/}
-              {/*src={background1}*/}
-              {/*transition={transition}*/}
-              {/*className='background background1'*/}
-              {/*progress={animProps.progress}*/}
-              {/*style={{ minWidth: '100vw', minHeight: '100%' }}*/}
-            {/*/>*/}
-          {/*)}*/}
-        {/*</Spring>*/}
         <Spring
           reset={currentBackground === 2}
           config={{
@@ -1504,12 +1425,11 @@ const Vassiliki = ( { match }) => {
           )}
         </Spring>
 
-    {/*<div className='background1-wrapper'>*/}
+    <div className='background1-wrapper'>
           <video autoPlay muted="muted" loop  className='background1'>
               <source src={backgroundVideo} type="video/mp4"/>
           </video>
-    {/*</div>*/}
-
+    </div>
         <img src={background5} className='background share-background' />
         <div
           className='share-block fl-column fl-full-center'
@@ -1712,13 +1632,6 @@ const Vassiliki = ( { match }) => {
                   />
               </a>
 
-              {/*<div*/}
-              {/*className={*/}
-              {/*currentBackground === 5 ? 'dot-img-focused dot-img' : 'dot-img'*/}
-              {/*}*/}
-              {/*style={{ marginTop: '2vw' }}*/}
-              {/*/>*/}
-
               <div
                   className={
                       currentBackground === 2 ? 'dot-img-focused dot-img' : 'dot-img'
@@ -1736,12 +1649,6 @@ const Vassiliki = ( { match }) => {
                       currentBackground === 4 ? 'dot-img-focused dot-img' : 'dot-img'
                   }
               />
-
-              {/*<div*/}
-              {/*className={*/}
-              {/*currentBackground === 1 ? 'dot-img-focused dot-img' : 'dot-img'*/}
-              {/*}*/}
-              {/*/>*/}
 
               <a
                   href='#!'
