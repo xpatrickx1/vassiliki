@@ -541,7 +541,7 @@ const GlobalStyle = createGlobalStyle`
     display: block;
     margin: 0 auto;
     text-align: center;
-    z-index: 8;
+    //z-index: 8;
     transition: transform 2s ease-in-out, opacity 2s linear;
     opacity: 0;
   }
@@ -723,6 +723,7 @@ const GlobalStyle = createGlobalStyle`
      animation: 1s fadeInUp;
     animation-fill-mode: both;
     animation-delay: 1.5s;
+    z-index: 8;
     opacity: 1;
   }
 
@@ -1433,7 +1434,7 @@ const Vassiliki = ( { match }) => {
         </Spring>
 
     <div className='background1-wrapper'>
-          <video autoPlay muted="muted" loop  className='background1'>
+          <video autoPlay muted loop  className='background1'>
               <source src={backgroundVideo} type="video/mp4"/>
           </video>
     </div>
