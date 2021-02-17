@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useRef, useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSwipeable } from 'react-swipeable';
 import $ from 'jquery';
@@ -25,6 +25,7 @@ import background2 from '../img/background2.jpg';
 import background3 from '../img/background3.jpg';
 import background4 from '../img/background4.jpg';
 import background5 from '../img/background5.jpg';
+import background1Fall from '../img/background1-fall.jpg';
 import backgroundVideo from "../img/vassvideo.mp4";
 
 import { useMediaQuery } from 'react-responsive';
@@ -84,6 +85,7 @@ const GlobalStyle = createGlobalStyle`
   .background1-wrapper {
     opacity: 1;
     z-index: 10;   
+    background: #000;
   }
 
   .background1 {
@@ -141,7 +143,6 @@ const GlobalStyle = createGlobalStyle`
   .background2 {
     transform: translateX(-20%);
     opacity: 0;
-    display: none;
     
      &:after {
     content: '';
@@ -158,7 +159,6 @@ const GlobalStyle = createGlobalStyle`
   .screen-2-animation {
     opacity: 1 !important;
     animation: 5s screen-2-animation linear;
-    display: block;
   }
   
   .screen-2-animation-2 {
@@ -201,7 +201,6 @@ const GlobalStyle = createGlobalStyle`
     transform: translateX(-20%);
     opacity: 0;
     position: relative;
-    display:none;
     
     &:before {
       content: url('./img/background3-lady.png');
@@ -241,7 +240,6 @@ const GlobalStyle = createGlobalStyle`
   .screen-3-animation {
     opacity: 1 !important;
     animation: 5s screen3-animation linear;
-    display: block;
   }
   
   @keyframes screen3-animation {
@@ -258,7 +256,6 @@ const GlobalStyle = createGlobalStyle`
 
   .background4 {
     transform: scale(1.2, 1.2) translateX(-10%);
-    display:none;
     
     &:after {
     content: '';
@@ -298,25 +295,22 @@ const GlobalStyle = createGlobalStyle`
   .screen-4-animation {
     opacity: 1 !important;
     transform: scale(1, 1) translateX(-5%);
-    display: block;
   }
 
   .background5 {
     transform: scale(1.2, 1.2) translateX(0%);
-    display: none;
   }
 
   .screen-5-animation {
     opacity: 1 !important;
     transform: scale(1, 1) translateX(-15%);
-    display: block;
   }
   
   
   .player {
     width: 5vw;
     height: 5vw;
-    position: fixed;
+    position: absolute;
     bottom: 13vw;
     left: 10vw;
     z-index: 10;
@@ -359,7 +353,7 @@ const GlobalStyle = createGlobalStyle`
 
   
   .image-nav {
-    position: fixed;
+    position: absolute;
     display: none;
     justify-content: center;
     align-items: center;
@@ -413,7 +407,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .share-icon-wrapper-2 {
-    position: fixed;
+    position: absolute;
     top:8vw;
     right: 10vw;
     transition: opacity 1s linear;
@@ -465,7 +459,7 @@ const GlobalStyle = createGlobalStyle`
     z-index: 8;
     left: 8vw;
     top: 0;
-    position: fixed;
+    position: absolute;
     height: 100%;
   }
   
@@ -502,11 +496,8 @@ const GlobalStyle = createGlobalStyle`
     letter-spacing: 1.2vw;
     line-height: 1.3;
     color: #FCF8F8;
-
     transform: translateX(-40vw);
     opacity: 0;
-
-    transition: transform 2s ease-in-out, opacity 2s linear;
   }
 
   .text-2 {
@@ -516,11 +507,8 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 300;
     line-height: 1.2;
     margin-top: 4vw;
-
     transform: translateX(-60vw);
     opacity: 0;
-
-    transition: transform 2s ease-in-out, opacity 2s linear;
   }
 
   .text-3 {
@@ -533,8 +521,6 @@ const GlobalStyle = createGlobalStyle`
 
     transform: translateX(-80vw);
     opacity: 0;
-
-    transition: transform 2s ease-in-out, opacity 2s linear;
   }
   
   .btn-enter {
@@ -547,9 +533,7 @@ const GlobalStyle = createGlobalStyle`
     display: block;
     margin: 0 auto;
     text-align: center;
-    //z-index: 8;
-    transition: transform 2s ease-in-out, opacity 2s linear;
-    opacity: 0;
+    opacity: 0; 
   }
   
   
@@ -575,7 +559,7 @@ const GlobalStyle = createGlobalStyle`
 
   
   .insta-icon-wrapper {
-    position:fixed;
+    position:absolute;
     z-index: 10;
     top: 2vw;
     transform: translateX(-90vw);
@@ -585,7 +569,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   .fb-icon-wrapper {
-     position:fixed;
+     position:absolute;
     z-index: 10;
     top: 2vw;
     transform: translateX(-100vw);
@@ -607,7 +591,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 3vw;
     text-decoration: none;
     z-index: 8;
-    position: fixed;
+    position: absolute;
     left: 50%;
    
     bottom: 11vw;
@@ -664,7 +648,7 @@ const GlobalStyle = createGlobalStyle`
   .share-block-content {
     height: 100%;
     width: 100%;
-    position: fixed;
+    position: absolute;
     will-change: transform;
     transition: transform 1.5s ease-in-out;
   }
@@ -805,7 +789,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .share-name {
-    position: fixed;
+    position: absolute;
     top: 2vw;
     left: 8vw;
     color: white !important;
@@ -969,6 +953,66 @@ const Player = ({ url }) => {
         </>
     );
 };
+
+const isSafari = () => {
+    const ua = navigator.userAgent.toLowerCase();
+    return ua.indexOf("safari") > -1 && ua.indexOf("chrome") < 0;
+};
+
+const mainVideo =
+    "https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_480_1_5MG.mp4";
+
+const Play = () => {
+    const videoParentRef = useRef();
+    const [shouldUseImage, setShouldUseImage] = useState(false);
+    useEffect(() => {
+        if (isSafari() && videoParentRef.current) {
+            const player = videoParentRef.current.children[0];
+            if (player) {
+                player.controls = false;
+                player.playsinline = true;
+                player.muted = true;
+                player.setAttribute("muted", "");
+                player.autoplay = true;
+
+                setTimeout(() => {
+                    const promise = player.play();
+                    if (promise.then) {
+                        promise
+                            .then(() => {})
+                            .catch(() => {
+
+                                videoParentRef.current.style.display = "none";
+                                setShouldUseImage(true);
+                            });
+                    }
+                }, 0);
+            }
+        }
+    }, []);
+
+    return shouldUseImage ? (
+        <img src={background1Fall} alt="Muted Video" />
+    ) : (
+        <div
+            className='background1-wrapper'
+            ref={videoParentRef}
+            dangerouslySetInnerHTML={{
+                __html:`
+        <video
+          loop
+          muted
+          autoplay
+          playsinline
+          preload="metadata"
+          class='background1'
+        >
+        <source src="${backgroundVideo}" type="video/mp4" />
+        </video>`
+            }}
+        />
+    );
+}
 
 
 
@@ -1439,11 +1483,14 @@ const Vassiliki = ( { match }) => {
           )}
         </Spring>
 
-    <div className='background1-wrapper'>
-          <video autoPlay muted loop  className='background1'>
-              <source src={backgroundVideo} type="video/mp4"/>
-          </video>
-    </div>
+    {/*<div className='background1-wrapper'>*/}
+          {/*<video autoPlay muted loop  className='background1'>*/}
+              {/*<source src={backgroundVideo} type="video/mp4"/>*/}
+          {/*</video>*/}
+    {/*</div>*/}
+
+    <Play />
+
         <img src={background5} className='background share-background' />
         <div
           className='share-block fl-column fl-full-center'
