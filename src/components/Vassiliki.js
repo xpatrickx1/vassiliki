@@ -83,9 +83,7 @@ const GlobalStyle = createGlobalStyle`
   
   .background1-wrapper {
     opacity: 1;
-    z-index: 10;
-    //background:#000;
-    
+    z-index: 10;   
   }
 
   .background1 {
@@ -143,6 +141,7 @@ const GlobalStyle = createGlobalStyle`
   .background2 {
     transform: translateX(-20%);
     opacity: 0;
+    display: none;
     
      &:after {
     content: '';
@@ -159,6 +158,7 @@ const GlobalStyle = createGlobalStyle`
   .screen-2-animation {
     opacity: 1 !important;
     animation: 5s screen-2-animation linear;
+    display: block;
   }
   
   .screen-2-animation-2 {
@@ -201,6 +201,7 @@ const GlobalStyle = createGlobalStyle`
     transform: translateX(-20%);
     opacity: 0;
     position: relative;
+    display:none;
     
     &:before {
       content: url('./img/background3-lady.png');
@@ -240,6 +241,7 @@ const GlobalStyle = createGlobalStyle`
   .screen-3-animation {
     opacity: 1 !important;
     animation: 5s screen3-animation linear;
+    display: block;
   }
   
   @keyframes screen3-animation {
@@ -256,6 +258,7 @@ const GlobalStyle = createGlobalStyle`
 
   .background4 {
     transform: scale(1.2, 1.2) translateX(-10%);
+    display:none;
     
     &:after {
     content: '';
@@ -295,15 +298,18 @@ const GlobalStyle = createGlobalStyle`
   .screen-4-animation {
     opacity: 1 !important;
     transform: scale(1, 1) translateX(-5%);
+    display: block;
   }
 
   .background5 {
     transform: scale(1.2, 1.2) translateX(0%);
+    display: none;
   }
 
   .screen-5-animation {
     opacity: 1 !important;
     transform: scale(1, 1) translateX(-15%);
+    display: block;
   }
   
   
