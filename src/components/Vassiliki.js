@@ -87,6 +87,11 @@ const GlobalStyle = createGlobalStyle`
     z-index: 10;   
     background: #000;
   }
+  
+  .background1-wrapper-animation {
+    z-index: 9;
+    background:none;
+  }
 
   .background1 {
     height: 100% !important;
@@ -1121,6 +1126,7 @@ const Vassiliki = ( { match }) => {
         $('.background6').removeClass('bringForth');
 
         $('.background1').removeClass('screen-1-animation');
+        $('.background1-wrapper').removeClass('background1-wrapper-animation');
         $('.background3').removeClass('screen-3-animation');
         $('.background4').removeClass('screen-4-animation');
         $('.background5').removeClass('screen-5-animation');
@@ -1316,6 +1322,7 @@ const Vassiliki = ( { match }) => {
   // }, []);
 
   const showIntro = () => {
+      $('.background1-wrapper').addClass('background1-wrapper-animation');
       $('.background1').addClass('background1-animation');
       $('.info-wrapper').addClass('info-wrapper-bottom');
       $('.btn-enter').addClass('fadeInOut');
