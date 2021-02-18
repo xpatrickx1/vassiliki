@@ -147,7 +147,6 @@ const GlobalStyle = createGlobalStyle`
 
   .background2 {
     transform: translateX(-20%);
-    opacity: 0;
     
      &:after {
     content: '';
@@ -204,7 +203,6 @@ const GlobalStyle = createGlobalStyle`
 
   .background3 {
     transform: translateX(-20%);
-    opacity: 0;
     position: relative;
     
     &:before {
