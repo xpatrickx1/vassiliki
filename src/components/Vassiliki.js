@@ -233,6 +233,10 @@ const GlobalStyle = createGlobalStyle`
   @keyframes screen3-animation-lady {
   0% {
     transform: translate(-24%, -20%);
+    opacity: 0;
+  }
+  
+  20% {
     opacity: 1;
   }
  
@@ -288,6 +292,10 @@ const GlobalStyle = createGlobalStyle`
    @keyframes screen4-animation-table {
   0% {
     transform: translate(10%, 0);
+    opacity: 0;
+  }
+  
+  20% {
     opacity: 1;
   }
  
