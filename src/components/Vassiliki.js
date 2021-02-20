@@ -300,7 +300,7 @@ const GlobalStyle = createGlobalStyle`
 
   .screen-3-animation {
     opacity: 1 !important;
-    animation: 3s screen3-animation linear;
+    animation: 7s screen3-animation linear;
   }
   
   @keyframes screen3-animation {
@@ -1375,7 +1375,7 @@ const Vassiliki = ( { match }) => {
   const showIntro = () => {
       $('.background1-wrapper').addClass('background1-wrapper-animation');
       $('.background1').addClass('screen-1-animation');
-      // $('.background1').addClass('background1-animation');
+      $('.background1').addClass('background1-animation');
       $('.info-wrapper').addClass('info-wrapper-bottom');
       $('.btn-enter').addClass('fadeInOut');
       $('.text-1').addClass('fadeInOut');
