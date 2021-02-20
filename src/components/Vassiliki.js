@@ -98,7 +98,7 @@ const GlobalStyle = createGlobalStyle`
     min-width: 10vw !important;
     transform: scale(1.1) translateX(0);
     z-index: 12;
-    opacity: 0;
+    opacity: 1;
     
     &:after {
     content: '';
@@ -119,6 +119,18 @@ const GlobalStyle = createGlobalStyle`
     //animation-delay: .5s;
   }
   
+  .screen-1-animation-in {
+    transform: scale(1.2) translateX(0);
+    animation: 3s screen-1-animation-in both;
+    //animation-delay: .5s;
+  }
+  
+  .screen-1-animation-out {
+    transform: scale(1.2) translateX(0);
+    animation: 3s screen-1-animation-out both;
+    //animation-delay: .5s;
+  }
+ 
   @keyframes screen-1-animation {
   0% {
     transform: scale(1.1) translateX(-1vw);
@@ -145,8 +157,50 @@ const GlobalStyle = createGlobalStyle`
   }
 }
 
+@keyframes screen-1-animation-in {
+  0% {
+    transform: scale(1.1) translateX(-1vw);
+    opacity: 0;
+  }
+  
+  10% {
+    opacity: .5;
+  }
+  
+  50% {
+  opacity: 1;
+  }
+  
+  100% {
+    transform: scale(1.1) translate(-5vw, 2vw);
+    opacity: 1;
+  }
+  
+}
+
+ @keyframes screen-1-animation-out {
+ 
+  0% {
+    transform: scale(1.1) translate(-5vw, 2vw);
+    opacity: 1;
+  }
+  
+  90% {
+    //opacity: 1;
+  }
+  
+  100% {
+    transform: scale(1.1) translateX(0);
+    opacity: 0;
+    z-index: -20;
+  }
+}
+
+  
+
   .background2 {
-    transform: translateX(-20%);
+    transform: scale(1.1) translate(-40vw, 4vw);
+    
     
      &:after {
     content: '';
@@ -162,28 +216,28 @@ const GlobalStyle = createGlobalStyle`
   
   .screen-2-animation {
     opacity: 1 !important;
-    animation: 5s screen-2-animation linear;
+    animation: 3s screen-2-animation linear;
   }
   
   .screen-2-animation-2 {
     opacity: 1 !important;
-    animation: 5s screen-2-animation-2 infinite;
+    //animation: 3s screen-2-animation-2 infinite;
   }
   
   @keyframes screen-2-animation {
   0% {
     transform: scale(1.5) translate(-16vw, 23vw);
-    opacity: 1;
+   
   }
   
   50% {
     transform: scale(1.1) translate(-50vw, 6vw);
-    opacity: 1;
+   
   }
   
   100% {
     transform: scale(1.1) translate(-40vw, 4vw);
-    opacity: 1;
+   
   }
 }
 
@@ -215,7 +269,7 @@ const GlobalStyle = createGlobalStyle`
       animation-delay: 1s;
       opacity: 1;
     }
-    
+
     &:after {
     content: '';
     position: absolute;
@@ -246,18 +300,16 @@ const GlobalStyle = createGlobalStyle`
 
   .screen-3-animation {
     opacity: 1 !important;
-    animation: 5s screen3-animation linear;
+    animation: 3s screen3-animation linear;
   }
   
   @keyframes screen3-animation {
   0% {
     transform: translateX(-10%);
-    opacity: 1;
   }
  
   100% {
     transform: translateX(-20%);
-    opacity: 1;
   }
   }
 
@@ -281,7 +333,7 @@ const GlobalStyle = createGlobalStyle`
       top: 55%;
       z-index: 1;
       transform: translate(5%, -7%);
-      animation: 10s screen4-animation-table linear;
+      animation: 5s screen4-animation-table linear;
       animation-delay: 1s;
       opacity: 1;
     }
@@ -970,9 +1022,6 @@ const isSafari = () => {
     return ua.indexOf("safari") > -1 && ua.indexOf("chrome") < 0;
 };
 
-const mainVideo =
-    "https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_480_1_5MG.mp4";
-
 const Play = () => {
     const videoParentRef = useRef();
     const [shouldUseImage, setShouldUseImage] = useState(false);
@@ -1082,9 +1131,6 @@ const Vassiliki = ( { match }) => {
           $('.insta-icon-wrapper').removeClass('insta-animation');
           $('.fb-icon-wrapper').removeClass('fb-animation');
           $('.player').removeClass('player-animation');
-
-
-
         }
 
         if (!firstLoad) {
@@ -1162,10 +1208,10 @@ const Vassiliki = ( { match }) => {
           $('.background2').addClass('screen-2-animation');
         }, 400);
 
-          setTimeout(() => {
-              $('.background2').removeClass('screen-2-animation');
-              $('.background2').addClass('screen-2-animation-2');
-          }, 5000);
+          // const tim = setTimeout(() => {
+          //     $('.background2').removeClass('screen-2-animation');
+          //     $('.background2').addClass('screen-2-animation-2');
+          // }, 5000);
 
         break;
       case 3:
@@ -1184,7 +1230,6 @@ const Vassiliki = ( { match }) => {
           $('.background5').addClass('hide');
           $('.background6').addClass('hide');
         }
-
 
         $('.background2').removeClass('bringForth');
         $('.background3').addClass('bringForth');
@@ -1329,7 +1374,8 @@ const Vassiliki = ( { match }) => {
 
   const showIntro = () => {
       $('.background1-wrapper').addClass('background1-wrapper-animation');
-      $('.background1').addClass('background1-animation');
+      $('.background1').addClass('screen-1-animation');
+      // $('.background1').addClass('background1-animation');
       $('.info-wrapper').addClass('info-wrapper-bottom');
       $('.btn-enter').addClass('fadeInOut');
       $('.text-1').addClass('fadeInOut');
@@ -1338,14 +1384,18 @@ const Vassiliki = ( { match }) => {
   }
 
   const closeIntro = () => {
-      $('.background1').removeClass('background1-animation');
-      $('.background1').addClass('hide');
+      // $('.background1').addClass('hide');
+      $('.background1').removeClass('screen-1-animation');
+      // $('.background1').addClass('screen-1-animation-out');
       $('.btn-enter').removeClass('btn-enter-animation');
       $('.text-1').removeClass('text-1-animation');
       $('.text-2').removeClass('text-2-animation');
       $('.btn-enter').removeClass('fadeInOut');
       $('.text-1').removeClass('fadeInOut');
       $('.text-2').removeClass('fadeInOut');
+      // $('.text-1').addClass('fadeOutDown');
+      // $('.text-2').removeClass('fadeOutDown');
+      // $('.btn-enter').removeClass('fadeOutDown');
   };
 
   const openShare = () => {
@@ -1403,9 +1453,12 @@ const Vassiliki = ( { match }) => {
   };
 
   const onEnterClick = () => {
-      clearInterval(intervalId)
       closeIntro();
+      // setTimeout ( () => {
       setCurrentBackground(2);
+      clearInterval(intervalId);
+
+      // }, 2000)
   }
 
   const customTransition = `
