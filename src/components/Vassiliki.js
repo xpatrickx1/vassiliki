@@ -300,7 +300,8 @@ const GlobalStyle = createGlobalStyle`
 
   .screen-3-animation {
     opacity: 1 !important;
-    animation: 7s screen3-animation linear;
+    //animation: 7s screen3-animation linear;
+    transform: translateX(-10%);
   }
   
   @keyframes screen3-animation {
