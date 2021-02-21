@@ -113,11 +113,11 @@ const GlobalStyle = createGlobalStyle`
   }
    
 
-  .screen-1-animation {
-    transform: scale(1.2) translateX(0);
-    animation: 6s screen-1-animation both;
-    //animation-delay: .5s;
-  }
+  //.screen-1-animation {
+  //  transform: scale(1.2) translateX(0);
+  //  animation: 6s screen-1-animation both;
+  //  //animation-delay: .5s;
+  //}
   
   .screen-1-animation-in {
     transform: scale(1.2) translateX(0);
@@ -127,7 +127,7 @@ const GlobalStyle = createGlobalStyle`
   
   .screen-1-animation-out {
     transform: scale(1.2) translateX(0);
-    animation: 3s screen-1-animation-out both;
+    animation: 1.5s screen-1-animation-out both;
     //animation-delay: .5s;
   }
  
@@ -179,6 +179,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
  @keyframes screen-1-animation-out {
+ 
  
   0% {
     transform: scale(1.1) translate(-5vw, 2vw);
@@ -513,8 +514,8 @@ const GlobalStyle = createGlobalStyle`
     margin-top: 5vw;
     opacity: 0;
     object-fit: cover;
-    animation: 6s screen-1-animation both;
-    animation-delay: .5s;
+    //animation: 6s screen-1-animation both;
+    //animation-delay: .5s;
     box-shadow: 0 0 5px #888;
   }
 
@@ -742,11 +743,27 @@ const GlobalStyle = createGlobalStyle`
     animation-fill-mode: both;
     animation-delay: 1.1s;
   }
+  
+  .text-1-animation-out {
+    animation: 1s fadeOutDown;
+    animation-fill-mode: both;
+    //animation-delay: 1.1s;
+  }
 
   .text-2-animation {
     animation: 1s fadeInUp;
     animation-fill-mode: both;
     animation-delay: 1.3s;
+    z-index: 8;
+    opacity: 1;
+  }
+  
+  .text-2-animation-out {
+    animation: 1s fadeOutDown;
+    animation-fill-mode: both;
+    //animation-delay: 1.3s;
+    z-index: 8;
+    opacity: 1;
   }
 
   .text-3-animation {
@@ -777,6 +794,13 @@ const GlobalStyle = createGlobalStyle`
      animation: 1s fadeInUp;
     animation-fill-mode: both;
     animation-delay: 1.5s;
+    z-index: 8;
+    opacity: 1;
+  }
+  
+  .btn-enter-animation-out {
+     animation: 1s fadeOutDown;
+    animation-fill-mode: both;
     z-index: 8;
     opacity: 1;
   }
@@ -888,10 +912,12 @@ const GlobalStyle = createGlobalStyle`
 @keyframes fadeOutDown {
   from {
     opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 
   to {
     opacity: 0;
+    //transform: translate3d(0, 100%, 0);
     transform: translate3d(0, 100%, 0);
   }
 }
@@ -1090,7 +1116,9 @@ const Vassiliki = ( { match }) => {
 
   const [redirect, setRedirect] = useState(false);
 
-    const [intervalId, setIntervalId] = useState();
+  const [intervalId, setIntervalId] = useState();
+
+  const [timerBg2, setTimerBg2] = useState();
 
   const isMobile = useMediaQuery({ query: `(max-width: 500px)` });
   useEffect(() => {
@@ -1148,7 +1176,7 @@ const Vassiliki = ( { match }) => {
           $('.background5').removeClass('screen-5-animation');
 
         } else {
-          $('.background1').addClass('screen-1-animation');
+          // $('.background1').addClass('screen-1-animation');
           setFirstLoad(false);
         }
 
@@ -1178,7 +1206,7 @@ const Vassiliki = ( { match }) => {
         $('.background5').removeClass('bringForth');
         $('.background6').removeClass('bringForth');
 
-        $('.background1').removeClass('screen-1-animation');
+        // $('.background1').removeClass('screen-1-animation');
         $('.background1-wrapper').removeClass('background1-wrapper-animation');
         $('.background3').removeClass('screen-3-animation');
         $('.background4').removeClass('screen-4-animation');
@@ -1193,6 +1221,9 @@ const Vassiliki = ( { match }) => {
           $('.background2-shadow').removeClass('hide');
           $('.player').addClass('player-animation');
           $('.info-wrapper').removeClass('info-wrapper-bottom');
+          $('.btn-enter').removeClass('btn-enter-animation-out');
+          $('.text-1').removeClass('text-1-animation-out');
+          $('.text-2').removeClass('text-2-animation-out');
 
           setTimeout( () => {
               $('.info-wrapper').addClass('info-wrapper-top');
@@ -1209,10 +1240,6 @@ const Vassiliki = ( { match }) => {
           $('.background2').addClass('screen-2-animation');
         }, 400);
 
-          // const tim = setTimeout(() => {
-          //     $('.background2').removeClass('screen-2-animation');
-          //     $('.background2').addClass('screen-2-animation-2');
-          // }, 5000);
 
         break;
       case 3:
@@ -1357,12 +1384,19 @@ const Vassiliki = ( { match }) => {
   useEffect(() => {
       showIntro();
   //  history.push('/vassiliki-Karayanni');
-      const id = setTimeout(() => {
+      const closeIntroTimer = setTimeout(() => {
           closeIntro();
+
+      }, 5000);
+      const setBg2 = setTimeout(() => {
           setCurrentBackground(2);
-      }, 6500);
-      setIntervalId(id);
-      return () => clearInterval(id);
+      }, 6000);
+      setIntervalId(closeIntroTimer);
+      setTimerBg2(setBg2);
+      return () => {
+          clearInterval(closeIntroTimer);
+          clearInterval(timerBg2);
+      };
 
       //eslint-disable-next-line
       }, []);
@@ -1375,28 +1409,23 @@ const Vassiliki = ( { match }) => {
 
   const showIntro = () => {
       $('.background1-wrapper').addClass('background1-wrapper-animation');
-      $('.background1').addClass('screen-1-animation');
-      $('.background1').addClass('background1-animation');
+      $('.background1').addClass('screen-1-animation-in');
       $('.info-wrapper').addClass('info-wrapper-bottom');
-      $('.btn-enter').addClass('fadeInOut');
-      $('.text-1').addClass('fadeInOut');
-      $('.text-2').addClass('fadeInOut');
+      $('.text-1').addClass('text-1-animation');
+      $('.text-2').addClass('text-2-animation');
+
       $('.btn-enter').addClass('btn-enter-animation');
   }
 
   const closeIntro = () => {
-      // $('.background1').addClass('hide');
-      $('.background1').removeClass('screen-1-animation');
-      // $('.background1').addClass('screen-1-animation-out');
+      $('.background1').removeClass('screen-1-animation-in');
+      $('.background1').addClass('screen-1-animation-out');
       $('.btn-enter').removeClass('btn-enter-animation');
+      $('.btn-enter').addClass('btn-enter-animation-out');
       $('.text-1').removeClass('text-1-animation');
+      $('.text-1').addClass('text-1-animation-out');
       $('.text-2').removeClass('text-2-animation');
-      $('.btn-enter').removeClass('fadeInOut');
-      $('.text-1').removeClass('fadeInOut');
-      $('.text-2').removeClass('fadeInOut');
-      // $('.text-1').addClass('fadeOutDown');
-      // $('.text-2').removeClass('fadeOutDown');
-      // $('.btn-enter').removeClass('fadeOutDown');
+      $('.text-2').addClass('text-2-animation-out');
   };
 
   const openShare = () => {
@@ -1455,11 +1484,11 @@ const Vassiliki = ( { match }) => {
 
   const onEnterClick = () => {
       closeIntro();
-      // setTimeout ( () => {
+      setTimeout ( () => {
       setCurrentBackground(2);
       clearInterval(intervalId);
-
-      // }, 2000)
+      clearInterval(timerBg2);
+      }, 1000)
   }
 
   const customTransition = `
