@@ -86,12 +86,14 @@ const GlobalStyle = createGlobalStyle`
     opacity: 1;
     z-index: 10;   
     background: #000;
+    transition: background 0s linear;
   }
   
   .background1-wrapper-animation {
     z-index: 9;
-    background:none;
+    background:rgba(255,255,255, 0);
   }
+
 
   .background1 {
     height: 100% !important;
@@ -1109,7 +1111,7 @@ const Vassiliki = ( { match }) => {
   const shareMessage =
     'Hello,\nYou can view/save my digital business card from the link below.';
 
-  const [currentBackground, setCurrentBackground] = useState(1);
+  const [currentBackground, setCurrentBackground] = useState(null);
   const [direction, setDirection] = useState(false);
 
   const [firstLoad, setFirstLoad] = useState(true);
@@ -1129,11 +1131,13 @@ const Vassiliki = ( { match }) => {
 
   const nextImage = () => {
     setDirection(false);
-    setCurrentBackground(currentBackground + 1 > 5 ? 5 : currentBackground + 1);
+    if (!currentBackground) return
+    setCurrentBackground(currentBackground + 1 > 4 ? 4 : currentBackground + 1);
   };
 
   const prevImage = () => {
     setDirection(true);
+    if (!currentBackground) return
     setCurrentBackground(currentBackground - 1 < 2 ? 2 : currentBackground - 1);
   };
 
@@ -1146,41 +1150,6 @@ const Vassiliki = ( { match }) => {
     setCurrentBackground(background);
 
     switch (background) {
-      case 1:
-        if (backwards) {
-
-        } else {
-          $('.background1').removeClass('hide');
-          $('.background2').addClass('hide');
-          $('.background3').addClass('hide');
-          $('.background4').addClass('hide');
-          $('.background5').addClass('hide');
-          $('.background6').addClass('hide');
-          $('.share-icon-wrapper-2').addClass('hide');
-          $('.insta-icon-wrapper').removeClass('insta-animation');
-          $('.fb-icon-wrapper').removeClass('fb-animation');
-          $('.player').removeClass('player-animation');
-        }
-
-        if (!firstLoad) {
-
-          $('.background2').removeClass('bringForth');
-          $('.background3').removeClass('bringForth');
-          $('.background4').removeClass('bringForth');
-          $('.background5').removeClass('bringForth');
-          $('.background6').removeClass('bringForth');
-
-          $('.background2').removeClass('screen-2-animation');
-          $('.background3').removeClass('screen-3-animation');
-          $('.background4').removeClass('screen-4-animation');
-          $('.background5').removeClass('screen-5-animation');
-
-        } else {
-          // $('.background1').addClass('screen-1-animation');
-          setFirstLoad(false);
-        }
-
-        break;
       case 2:
         if (backwards) {
 
@@ -1415,6 +1384,16 @@ const Vassiliki = ( { match }) => {
       $('.text-2').addClass('text-2-animation');
 
       $('.btn-enter').addClass('btn-enter-animation');
+
+      $('.background2').addClass('hide');
+      $('.background3').addClass('hide');
+      $('.background4').addClass('hide');
+      $('.background5').addClass('hide');
+      $('.background6').addClass('hide');
+      $('.share-icon-wrapper-2').addClass('hide');
+      $('.insta-icon-wrapper').removeClass('insta-animation');
+      $('.fb-icon-wrapper').removeClass('fb-animation');
+      $('.player').removeClass('player-animation');
   }
 
   const closeIntro = () => {
